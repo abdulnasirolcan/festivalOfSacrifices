@@ -1,0 +1,182 @@
+<div class="container pt-5">
+  <h2 class="text-center">Muhasebe <code class="text-success">tüm </code> listeler</h2>
+  <div class="row pt-2 pb-4">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+          <!-- <form class="px-3 py-2">
+            <div class="form-group">
+              <input
+                *ngIf="accountRowNumber$ as account"
+                type="text"
+                class="form-control"
+                id="exampleDropdownFormPassword1"
+                [(ngModel)]="account.earringsNumber"
+                placeholder="Arama yap"
+              />
+            </div>
+          </form>
+          <div class="dropdown-divider"></div> -->
+          <button
+            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            class="dropdown-item"
+            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber)"
+            ngbDropdownItem
+          >
+            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Sıra No</th>
+        <th scope="col">Küpe No</th>
+        <th scope="col">İlgili Kişi</th>
+        <th scope="col">Hisse Adedi</th>
+        <th scope="col">Randevu Saati</th>
+        <th scope="col">Ödeme Alanı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <!-- <th scope="row">{{ i + 1 }}</th> -->
+        <th scope="row">{{ account.rowNumber }}</th>
+        <td>
+          {{ account.earringsNumber }}
+        </td>
+        <td>{{ account.relatedPerson }}</td>
+        <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.cuttingTime }} - {{ account.paymentReceived }}</td>
+        <!-- <td>{{ account.paymentReceived }}</td> -->
+        <td>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="openModalTime(content, account.id, account.relatedPerson)"
+            [ngClass]="account.paymentReceived ? 'btn-danger' : 'btn-success'"
+            [disabled]="account.paymentReceived"
+          >
+            Ödeme Alındı
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-success mr-auto btn-lg btn-block"
+        (click)="openModalTime(contentTotal, totalPaymentId)"
+        [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabled || isDisabledTotal"
+      >
+        Genel Ödeme Alındı
+      </button>
+    </div>
+  </div>
+  <!-- <div class="p-2 d-flex justify-content-center">
+    <ngb-pagination
+      [collectionSize]="(accounts$ | async).length"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [maxSize]="3"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+    >
+    </ngb-pagination>
+  </div> -->
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ payName }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Ödeme Alım Saati: {{ currentDate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et</button>
+  </div>
+</ng-template>
+
+<ng-template #contentTotal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Genel Ödeme Alım Saati: {{ currentDate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTimeTotal(currentDate, idName))">
+      Kabul Et
+    </button>
+  </div>
+</ng-template>
+
+<pre>{{ ProductDetails | json }}</pre>
+<ul *ngFor="let prd of ProductDetails">
+  <li>{{ prd.earringsNumber }} - {{ prd.rowNumber }} - {{ prd.paymentReceivedTotal }}</li>
+</ul>
+<!-- <div class="container">
+  <div>
+    Select Product :
+    <select class="d-inline-block" [(ngModel)]="ProductHeader.name" (ngModelChange)="SearchProduct(ProductHeader.name)">
+      <option *ngFor="let prod of ProductHeader">{{ prod.name }} </option>
+    </select>
+    <div class="row pt-2 pb-4">
+      <div class="col">
+        <div>
+          <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>
+            {{ ProductHeader.name }}
+          </button>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            ngbDropdown
+            class="d-inline-block"
+            [(ngModel)]="ProductHeader.name"
+            (ngModelChange)="SearchProduct(ProductHeader.name)"
+          >
+            <button *ngFor="let prod of ProductHeader" class="dropdown-item" ngbDropdownItem>
+              {{ prod.name }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="ProductHeader.name">
+      <h5>You have selected: {{ ProductHeader.name }} Product</h5>
+    </div>
+  </div>
+  <div>
+    <h4>Product Details:</h4>
+    <table class="TFtable">
+      <tr>
+        <th>Name</th>
+        <th>Store</th>
+        <th>Price</th>
+        <th>Model</th>
+      </tr>
+      <tr *ngFor="let Prod of ProductDetails">
+        <td>{{ Prod.title }}</td>
+        <td>{{ Prod.store }}</td>
+        <td>{{ Prod.price }}</td>
+        <td>{{ Prod.model }}</td>
+      </tr>
+    </table>
+  </div>
+</div> -->

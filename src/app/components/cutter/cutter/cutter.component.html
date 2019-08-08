@@ -1,0 +1,103 @@
+<div class="container pt-5">
+  <h2 class="text-center">Kesim Sorumlusu<code class="text-success"> tüm </code> listeler</h2>
+  <div class="row pt-2 pb-4">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+          <button
+            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            class="dropdown-item"
+            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber)"
+            ngbDropdownItem
+          >
+            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Sıra No</th>
+        <th scope="col">Küpe No</th>
+        <th scope="col">İlgili Kişi</th>
+        <th scope="col">Hisse Adedi</th>
+        <th scope="col">Randevu Saati</th>
+        <th scope="col">Ödeme Alındı</th>
+        <th scope="col">Kesim Yapıldı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <!-- <th scope="row">{{ i + 1 }}</th> -->
+        <th scope="row">{{ account.rowNumber }}</th>
+        <td>
+          {{ account.earringsNumber }}
+        </td>
+        <td>{{ account.relatedPerson }}</td>
+        <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.cuttingTime }}</td>
+        <td>{{ account.paymentReceived }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="openModalTime(content, account.id, account.relatedPerson)"
+            [ngClass]="account.cutReceived ? 'btn-danger' : 'btn-success'"
+            [disabled]="account.cutReceived"
+          >
+            Kesim Yapıldı
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="row pt-2 pb-5">
+    <div class="col">
+      <button
+        type="button"
+        class="btn btn-success mr-auto btn-lg btn-block"
+        (click)="openModalTime(contentTotal, totalPaymentId)"
+        [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabled || isDisabledTotal"
+      >
+        Genel Kesim Yapıldı
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ payName }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Kesim Alım Saati: {{ currentDate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et</button>
+  </div>
+</ng-template>
+
+<ng-template #contentTotal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Genel Kesim Alım Saati: {{ currentDate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTimeTotal(currentDate, idName))">
+      Kabul Et
+    </button>
+  </div>
+</ng-template>

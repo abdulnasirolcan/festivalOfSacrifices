@@ -1,0 +1,70 @@
+<div class="container pt-5">
+  <p>Kurban <code>tüm </code> listeler</p>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Sıra No</th>
+        <th scope="col">Küpe No</th>
+        <th scope="col">İlgili Kişi</th>
+        <th scope="col">Hisse Adedi</th>
+        <th scope="col">Randevu Saati</th>
+        <th scope="col">Hesap Saati</th>
+        <th scope="col">Ödeme Alanı</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of account$ | async; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ account.earringsNumber }}</td>
+        <td>{{ account.relatedPerson }}</td>
+        <td>{{ account.numberOfShares }}</td>
+        <td>
+          {{ account.appointmentTime }}
+        </td>
+        <td>{{ account.paymentReceived }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="openModalTime(content, account.id, account.relatedPerson)"
+            [disabled]="account.paymentReceived"
+          >
+            Ödeme Alındı
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="p-2 d-flex justify-content-center">
+    <ngb-pagination
+      [collectionSize]="(accounts$ | async).length"
+      [(page)]="page"
+      [pageSize]="pageSize"
+      [maxSize]="12"
+      [rotate]="true"
+      [ellipses]="false"
+      [boundaryLinks]="true"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{ payName }}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Ödeme Alım Saati: {{ currentDate }}</p>
+  </div>
+  <div class="modal-footer">
+    <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et</button>
+  </div>
+</ng-template>
+
+<pre>{{ accounts$ | async | json }}</pre>

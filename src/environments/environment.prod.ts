@@ -1,3 +1,25 @@
 export const environment = {
-  production: true
+  production: true,
+  firebase: {
+    // apiKey: 'AIzaSyBN0msp4umMY0C1utPc_p_FRoDptQ5w4zw',
+    // authDomain: 'ngxs-example-3c5de.firebaseapp.com',
+    // databaseURL: 'https://ngxs-example-3c5de.firebaseio.com',
+    // projectId: 'ngxs-example-3c5de',
+    // storageBucket: 'ngxs-example-3c5de.appspot.com',
+    // messagingSenderId: '858485709222',
+    // apiKey: 'AIzaSyAPHiuKT4mr8Ey51b_096ISk0xStvG_0v8',
+    // authDomain: 'festival-of-sacrifices.firebaseapp.com',
+    // databaseURL: 'https://festival-of-sacrifices.firebaseio.com',
+    // projectId: 'festival-of-sacrifices',
+    // storageBucket: '',
+    // messagingSenderId: '364073113788',
+    // appId: '1:364073113788:web:6f174dc0fc00d33f'
+    apiKey: 'AIzaSyAPHiuKT4mr8Ey51b_096ISk0xStvG_0v8',
+    authDomain: 'festival-of-sacrifices.firebaseapp.com',
+    databaseURL: 'https://festival-of-sacrifices.firebaseio.com',
+    projectId: 'festival-of-sacrifices',
+    storageBucket: 'festival-of-sacrifices.appspot.com',
+    messagingSenderId: '364073113788',
+    appId: '1:364073113788:web:6f174dc0fc00d33f',
+  },
 };

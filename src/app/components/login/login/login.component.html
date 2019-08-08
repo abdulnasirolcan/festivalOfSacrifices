@@ -1,0 +1,89 @@
+<div class="container">
+  <div class="d-flex justify-content-center h-100">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="mt-5 text-center">Kullanıcı Girişi</h3>
+      </div>
+      <div class="card-body">
+        <form
+          [formGroup]="loginForm"
+          ngxs="auth.loginForm"
+          (ngSubmit)="
+            onSubmit(
+              loginForm.get('email').value,
+              loginForm.get('password').value
+            )
+          "
+        >
+          <div class="input-group form-group pb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-user"></i></span>
+            </div>
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="Email address"
+              required
+            />
+            <div
+              *ngIf="
+                loginForm.controls['email'].invalid &&
+                (loginForm.controls['email'].dirty ||
+                  loginForm.controls['email'].touched)
+              "
+              class="form-text text-danger"
+            >
+              <div *ngIf="loginForm.controls['email'].errors.required">
+                Lütfen Email adresini giriniz*
+              </div>
+            </div>
+          </div>
+          <div class="input-group form-group pb-2">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-key"></i></span>
+            </div>
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Password"
+              required
+            />
+            <div
+              *ngIf="
+                loginForm.controls['password'].invalid &&
+                (loginForm.controls['password'].dirty ||
+                  loginForm.controls['password'].touched)
+              "
+              class="form-text text-danger"
+            >
+              <div *ngIf="loginForm.controls['password'].errors.required">
+                Lütfen parola giriniz*
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <input
+              type="submit"
+              [disabled]="!this.loginForm.valid"
+              value="Giriş"
+              class="btn float-right login_btn"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ngx-spinner
+  bdOpacity="0.9"
+  bdColor="#333"
+  size="large"
+  color="#fff"
+  type="square-loader"
+  [fullScreen]="true"
+>
+  <p style="color: white">Loading...</p>
+</ngx-spinner>
