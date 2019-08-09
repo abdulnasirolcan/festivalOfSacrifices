@@ -21,7 +21,14 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsRouterPluginModule } from '@ngxs/router-plugin';
 
 // State
-import { AccountState, LoginState, CutterState, FestivalOfSacrificesState } from './core/state';
+import {
+  AccountState,
+  LoginState,
+  CutterState,
+  FestivalOfSacrificesState,
+  StockTentState,
+  VictimDeliveryState,
+} from './core/state';
 
 // Config
 import { environment } from '../environments/environment';
@@ -38,6 +45,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 
 // Guard
 import { AuthGuard } from './core/guard/auth.guard';
+import { ContourOutputState } from './core/state/contour-output.state';
 
 @NgModule({
   declarations: [AppComponent, MainLayoutComponent],
@@ -54,7 +62,15 @@ import { AuthGuard } from './core/guard/auth.guard';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
     AngularFirestoreModule.enablePersistence(),
-    NgxsModule.forRoot([LoginState, AccountState, CutterState, FestivalOfSacrificesState]),
+    NgxsModule.forRoot([
+      LoginState,
+      AccountState,
+      CutterState,
+      FestivalOfSacrificesState,
+      ContourOutputState,
+      StockTentState,
+      VictimDeliveryState,
+    ]),
     NgxsRouterPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot({
       key: ['auth.token', 'auth.email'],

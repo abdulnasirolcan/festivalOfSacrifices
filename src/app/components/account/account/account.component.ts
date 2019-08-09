@@ -90,7 +90,7 @@ export class AccountComponent implements OnInit {
     );
   }
 
-  constructor(private store: Store, private modalService: NgbModal) {}
+  constructor(private store: Store, private modalService: NgbModal, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
 
@@ -110,6 +110,9 @@ export class AccountComponent implements OnInit {
         paymentReceived: currentTime,
       }),
     );
+    setTimeout(() => {
+      this.cdRef.detectChanges();
+    }, 1000);
   }
 
   currentTimeTotal(currentTimeTotal, idTime) {
@@ -119,5 +122,8 @@ export class AccountComponent implements OnInit {
         paymentReceivedTotal: currentTimeTotal,
       }),
     );
+    setTimeout(() => {
+      this.cdRef.detectChanges();
+    }, 1000);
   }
 }

@@ -1,30 +1,23 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
-import { CutterState, AccountState } from '../../../core/state';
-import { Cutter, Account } from '../../../core/model';
-import { CreateCutter, CreateCutterTotal } from 'src/app/core/action';
+import { StockTentState } from '../../../core/state';
+import { Account } from '../../../core/model';
+import { CreateStockTent, CreateStockTentTotal } from '../../../core/action';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-cutter',
-  templateUrl: './cutter.component.html',
-  styleUrls: ['./cutter.component.scss'],
+  selector: 'app-stock-tent',
+  templateUrl: './stock-tent.component.html',
+  styleUrls: ['./stock-tent.component.scss'],
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CutterComponent implements OnInit {
-  @Select(CutterState.getCutter) accounts$: Observable<Account[]>;
-
-  @Input() page = 1;
-
-  @Input() pageSize = 6;
-
+export class StockTentComponent implements OnInit {
+  @Select(StockTentState.getStockTent) accounts$: Observable<Account[]>;
   currentDate: string;
-
   payName: string;
-
   idName: string;
   selectedSortOrder: string = 'Küpe No Seçiniz';
   ProductDetails: object = [];
@@ -50,18 +43,6 @@ export class CutterComponent implements OnInit {
     );
   }
 
-  get account$(): Observable<any> {
-    return this.accounts$.pipe(
-      filter(account => !!account.length),
-      take(1),
-      map(accounts =>
-        accounts
-          .map((account, i) => ({ id: i + 1, ...account }))
-          .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize),
-      ),
-    );
-  }
-
   constructor(private store: Store, private modalService: NgbModal, private cdRef: ChangeDetectorRef) {}
 
   ngOnInit() {}
@@ -77,8 +58,8 @@ export class CutterComponent implements OnInit {
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
-        this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.cutReceived !== null) ? false : true;
-        this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.cutReceivedTotal !== null)
+        this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.shareTentEntry !== null) ? false : true;
+        this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.shareTentEntryTotal !== null)
           ? true
           : false;
       });
@@ -95,9 +76,9 @@ export class CutterComponent implements OnInit {
 
   currentTime(currentTime, idTime) {
     this.store.dispatch(
-      new CreateCutter({
+      new CreateStockTent({
         id: idTime,
-        cutReceived: currentTime,
+        shareTentEntry: currentTime,
       }),
     );
     setTimeout(() => {
@@ -107,10 +88,13 @@ export class CutterComponent implements OnInit {
 
   currentTimeTotal(currentTimeTotal, idTime) {
     this.store.dispatch(
-      new CreateCutterTotal({
+      new CreateStockTentTotal({
         id: idTime,
-        cutReceivedTotal: currentTimeTotal,
+        shareTentEntryTotal: currentTimeTotal,
       }),
     );
+    setTimeout(() => {
+      this.cdRef.detectChanges();
+    }, 1000);
   }
 }

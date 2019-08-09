@@ -126,7 +126,7 @@
   </div>
 </ng-template>
 
-<pre>{{ ProductDetails | json }}</pre>
+<pre>{{ accountRowNumber$ | async | json }}</pre>
 <ul *ngFor="let prd of ProductDetails">
   <li>{{ prd.earringsNumber }} - {{ prd.rowNumber }} - {{ prd.paymentReceivedTotal }}</li>
 </ul>
@@ -180,3 +180,23 @@
     </table>
   </div>
 </div> -->
+
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <label for="typeahead-focus">Search for a state:</label>
+        <input
+          id="typeahead-focus"
+          type="number"
+          class="form-control"
+          [(ngModel)]="model"
+          [ngbTypeahead]="search"
+          #instance="ngbTypeahead"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+<hr />
+<pre>Model: {{ model | json }}</pre>

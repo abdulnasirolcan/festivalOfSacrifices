@@ -1,5 +1,5 @@
 <div class="container pt-5">
-  <h2 class="text-center">Kesim Sorumlusu<code class="text-success"> tüm </code> listeler</h2>
+  <h2 class="text-center">Hisse Çadırı<code class="text-success"> tüm </code> listeler</h2>
   <div class="row pt-2 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
@@ -27,11 +27,12 @@
         <th scope="col">Randevu Saati</th>
         <th scope="col">Ödeme Alındı</th>
         <th scope="col">Kesim Yapıldı</th>
+        <th scope="col">Kontenyır Çıkışı Yapıldı</th>
+        <th scope="col">Hisse Çadırı Yapıldı</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
-        <!-- <th scope="row">{{ i + 1 }}</th> -->
         <th scope="row">{{ account.rowNumber }}</th>
         <td>
           {{ account.earringsNumber }}
@@ -39,16 +40,18 @@
         <td>{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
         <td>{{ account.cuttingTime }}</td>
-        <td>{{ account.paymentReceived }} {{ account.cutReceived }}</td>
+        <td>{{ account.paymentReceived }}</td>
+        <td>{{ account.cutReceived }}</td>
+        <td>{{ account.containerDelivered }} - {{ account.shareTentEntry }}</td>
         <td>
           <button
             type="button"
             class="btn btn-success"
             (click)="openModalTime(content, account.id, account.relatedPerson)"
-            [ngClass]="account.cutReceived ? 'btn-danger' : 'btn-success'"
-            [disabled]="account.cutReceived"
+            [ngClass]="account.shareTentEntry ? 'btn-danger' : 'btn-success'"
+            [disabled]="account.shareTentEntry"
           >
-            Kesim Yapıldı
+            Hisse Çadırı Yapıldı
           </button>
         </td>
       </tr>
@@ -63,7 +66,7 @@
         [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
         [disabled]="isDisabled || isDisabledTotal"
       >
-        Genel Kesim Yapıldı
+        Genel Hisse Çadırı Yapıldı
       </button>
     </div>
   </div>

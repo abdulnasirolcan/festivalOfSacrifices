@@ -1,3 +1,78 @@
-<div class="container">
-    <p>You can bind our <code>NgbPagination</code> component with slicing the data list</p>
+<div class="container pt-5">
+  <h2 class="text-center">Muhasebe <code class="text-success">tüm </code> listeler</h2>
+  <div class="row pt-2 pb-4">
+    <div class="col">
+      <div ngbDropdown class="d-inline-block">
+        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1" *ngIf="isValidTable; else other_Table">
+          <button
+            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            class="dropdown-item"
+            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
+            ngbDropdownItem
+          >
+            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th scope="col">Sıra No</th>
+        <th scope="col">Küpe No</th>
+        <th scope="col">İlgili Kişi</th>
+        <th scope="col">Hisse Adedi</th>
+        <th scope="col">Randevu Saati</th>
+        <th scope="col">Hesap Alım Saati</th>
+        <th scope="col">Kurban Kesim Saati</th>
+        <th scope="col">Kurban Konteynır Çıkışı Saati</th>
+        <th scope="col">Hisse Çadırı Giriş Saati</th>
+        <th scope="col">Hisse Çıkış Saati</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <!-- <th scope="row">{{ i + 1 }}</th> -->
+        <th scope="row">{{ account.rowNumber }}</th>
+        <td>
+          {{ account.earringsNumber }}
+        </td>
+        <td>{{ account.relatedPerson }}</td>
+        <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.cuttingTime }}</td>
+        <td>{{ account.paymentReceived }}</td>
+        <td>{{ account.cutReceived }}</td>
+        <td>{{ account.containerDelivered }}</td>
+        <td>{{ account.shareTentEntry }}</td>
+        <td>{{ account.victimDelivery }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <ng-template #other_Table>
+    <tbody>
+      <tr *ngFor="let account of account$ | async; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <!-- <th scope="row">{{ i + 1 }}</th> -->
+        <th scope="row">{{ account.rowNumber }}</th>
+        <td>
+          {{ account.earringsNumber }}
+        </td>
+        <td>{{ account.relatedPerson }}</td>
+        <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.cuttingTime }}</td>
+        <td>{{ account.paymentReceived }}</td>
+        <td>{{ account.cutReceived }}</td>
+        <td>{{ account.containerDelivered }}</td>
+        <td>{{ account.shareTentEntry }}</td>
+        <td>{{ account.victimDelivery }}</td>
+      </tr>
+    </tbody>
+  </ng-template>
 </div>
+
+<!-- <pre>{{ accountRowNumber$ | async | json }}</pre>
+<ul *ngFor="let prd of ProductDetails">
+  <li>{{ prd.earringsNumber }} - {{ prd.rowNumber }} - {{ prd.paymentReceivedTotal }}</li>
+</ul> -->
