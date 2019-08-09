@@ -1,6 +1,6 @@
 <div class="container pt-5">
   <h2 class="text-center">Hisse Çadırı<code class="text-success"> tüm </code> listeler</h2>
-  <div class="row pt-2 pb-4">
+  <div class="row pt-4 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
@@ -8,7 +8,16 @@
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
             class="dropdown-item"
-            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber)"
+            (click)="
+              SearchProduct(
+                account.id,
+                account.rowNumber,
+                account.earringsNumber,
+                account.meat,
+                account.bone,
+                account.animalWeight
+              )
+            "
             ngbDropdownItem
           >
             {{ account.earringsNumber }} - {{ account.relatedPerson }}
@@ -16,19 +25,58 @@
         </div>
       </div>
     </div>
+    <div *ngIf="isValidForm">
+      <form class="form-inline" [formGroup]="form" ngxsForm="form">
+        <input type="hidden" formControlName="id" #id />
+        <div class="form-group mb-2">
+          <label class="form-control-label mr-2 text-success" for="inputValid">Et</label>
+          <input
+            type="number"
+            formControlName="meat"
+            class="form-control"
+            id="inputValid"
+            #meat
+            placeholder="Et ağırlığını giriniz"
+          />
+        </div>
+        <div class="form-group mx-sm-3 mb-2">
+          <label class="form-control-label mr-2 text-success" for="inputDanger1">Kemik</label>
+          <input
+            type="number"
+            formControlName="bone"
+            class="form-control"
+            id="inputDanger1"
+            #bone
+            placeholder="Kemik ağırlığını giriniz"
+          />
+        </div>
+        <button
+          type="button"
+          class="btn btn-success mb-2"
+          (click)="save(meat.value, bone.value)"
+          [ngClass]="!this.form.valid ? 'btn-danger' : 'btn-success'"
+          [disabled]="!this.form.valid"
+        >
+          Kaydet
+        </button>
+      </form>
+    </div>
   </div>
   <table class="table table-hover">
     <thead>
       <tr>
         <th scope="col">Sıra No</th>
         <th scope="col">Küpe No</th>
-        <th scope="col">İlgili Kişi</th>
         <th scope="col">Hisse Adedi</th>
+        <th scope="col">İlgili Kişi</th>
         <th scope="col">Randevu Saati</th>
         <th scope="col">Ödeme Alındı</th>
         <th scope="col">Kesim Yapıldı</th>
         <th scope="col">Kontenyır Çıkışı Yapıldı</th>
         <th scope="col">Hisse Çadırı Yapıldı</th>
+        <th scope="col">Ağırlık</th>
+        <th scope="col">Et</th>
+        <th scope="col">Kemik</th>
         <th scope="col">Kurban Teslim Edildi</th>
       </tr>
     </thead>
@@ -38,13 +86,16 @@
         <td>
           {{ account.earringsNumber }}
         </td>
-        <td>{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.relatedPerson }}</td>
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
         <td>{{ account.containerDelivered }}</td>
-        <td>{{ account.shareTentEntry }} {{ account.victimDelivery }}</td>
+        <td>{{ account.shareTentEntry }}</td>
+        <td>{{ account.animalWeight }}</td>
+        <td>{{ account.meat }}</td>
+        <td>{{ account.bone }}</td>
         <td>
           <button
             type="button"
@@ -59,7 +110,17 @@
       </tr>
     </tbody>
   </table>
-  <div class="row pt-2 pb-5">
+  <div class="row pt-2 pb-3" *ngIf="isValidForm">
+    <div class="col">
+      <ol class="breadcrumb">
+        <li>Toplam Ağırlık</li>
+        <li class="mr-auto mx-auto">{{ animalTotal }}/Kg</li>
+        <li class="mr-auto">Toplam Oran</li>
+        <li class="mr-auto">{{ animalTotalCount }}%</li>
+      </ol>
+    </div>
+  </div>
+  <div class="row pt-2 pb-5" *ngIf="isValidForm">
     <div class="col">
       <button
         type="button"

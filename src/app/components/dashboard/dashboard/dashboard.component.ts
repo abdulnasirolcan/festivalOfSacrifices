@@ -53,10 +53,12 @@ export class DashboardComponent implements OnInit {
         take(1),
       )
       .subscribe(accounts => {
-        this.ProductDetails = accounts.filter(x => x.rowNumber === rowNumber);
+        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        this.ProductDetails = accountsRowNumber;
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.isValid = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
           ? true

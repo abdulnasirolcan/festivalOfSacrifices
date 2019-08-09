@@ -3,9 +3,10 @@ import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
 import { Account } from '../../../core/model';
-import { CreateVictimDelivery, CreateVictimDeliveryTotal } from '../../../core/action';
+import { CreateVictimDelivery, CreateVictimDeliveryTotal, CreateFormVictimDelivery } from '../../../core/action';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { VictimDeliveryState } from '../../../core/state';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-victim-delivery',
@@ -22,8 +23,12 @@ export class VictimDeliveryComponent implements OnInit {
   selectedSortOrder: string = 'Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
+  animalTotal: number;
+  animalTotalCount: number;
   isDisabled: boolean;
   isDisabledTotal: boolean;
+  form: FormGroup;
+  isValidForm: boolean = false;
 
   public trackByFn(index, account) {
     if (!account) {
@@ -43,25 +48,68 @@ export class VictimDeliveryComponent implements OnInit {
     );
   }
 
-  constructor(private store: Store, private modalService: NgbModal, private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private store: Store,
+    private modalService: NgbModal,
+    private cdRef: ChangeDetectorRef,
+    private fb: FormBuilder,
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.createVictimDelivery();
+  }
 
-  SearchProduct(id: number, rowNumber: number, earringsNumber: number) {
+  createVictimDelivery = () => {
+    this.form = this.fb.group({
+      id: null,
+      meat: ['', Validators.required],
+      bone: ['', Validators.required],
+    });
+  };
+
+  save = (meat, bone) => {
+    if (this.form.valid) {
+      this.store.dispatch(
+        new CreateFormVictimDelivery({
+          id: String(this.totalPaymentId),
+          meat,
+          bone,
+        }),
+      );
+    }
+    this.form.reset();
+    setTimeout(() => {
+      this.cdRef.detectChanges();
+    }, 1000);
+  };
+
+  SearchProduct(
+    id: number,
+    rowNumber: number,
+    earringsNumber: number,
+    meat: number,
+    bone: number,
+    animalWeight: number,
+  ) {
     this.accounts$
       .pipe(
         filter(account => !!account.length),
         take(1),
       )
       .subscribe(accounts => {
-        this.ProductDetails = accounts.filter(x => x.rowNumber === rowNumber);
+        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        this.ProductDetails = accountsRowNumber;
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.victimDelivery !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.victimDeliveryTotal !== null)
           ? true
           : false;
+        this.animalTotal =
+          Number(accountsRowNumber.length) * Number(meat) + Number(accountsRowNumber.length) * Number(bone);
+        this.animalTotalCount = Math.round((this.animalTotal * 100) / Number(animalWeight));
       });
   }
 

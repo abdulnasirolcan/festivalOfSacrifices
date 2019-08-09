@@ -8,6 +8,7 @@ import {
   GetVictimDelivery,
   CreateVictimDelivery,
   CreateVictimDeliveryTotal,
+  CreateFormVictimDelivery,
 } from '../action';
 
 export class VictimDeliveryStateModel {
@@ -33,6 +34,26 @@ export class VictimDeliveryState {
     this.victimDeliveryService.getAddedVictimDelivery().subscribe(victimDelivery => {
       patchState({ victimDelivery: [...victimDelivery] });
     });
+  }
+
+  @Action(CreateFormVictimDelivery)
+  addForm({ getState, patchState }: StateContext<VictimDeliveryStateModel>, { payload }: CreateFormVictimDelivery) {
+    return this.victimDeliveryService.addFormVictimDelivery(payload.id, payload.meat, payload.bone).then(
+      victimDelivery => {
+        patchState({
+          victimDelivery: getState().victimDelivery.map(victimDeliverys => {
+            if (victimDeliverys.id === payload.id) {
+              victimDeliverys.meat = payload.meat;
+              victimDeliverys.bone = payload.bone;
+            }
+            return victimDeliverys;
+          }),
+        });
+      },
+      err => {
+        throw new Error(err);
+      },
+    );
   }
 
   @Action(CreateVictimDelivery)

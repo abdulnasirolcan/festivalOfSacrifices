@@ -19,4 +19,6 @@ export class Account {
   victimDelivery?: Date | string; // kurbam teslimi yapıldı
   victimDeliveryTotal?: Date | string; // kurbam teslim edenin yapıldı
   paymentReceivedTotal?: Date | string; // muhasebe sayfasındaki toplam ödeme alındı
+  meat?: number; // et
+  bone?: number; // kemik
 }

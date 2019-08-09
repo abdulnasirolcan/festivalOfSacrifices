@@ -35,6 +35,13 @@ export class VictimDeliveryService {
         ),
       );
   }
+  addFormVictimDelivery(id?: string, meat?: number, bone?: number): Promise<any> {
+    const victimFormDeliveryCollection = this.af.doc<Account>(this.dbPath + id);
+    return victimFormDeliveryCollection.update({
+      meat,
+      bone,
+    });
+  }
 
   addVictimDelivery(id?: string, victimDelivery?: Date | string): Promise<any> {
     const victimDeliveryCollection = this.af.doc<Account>(this.dbPath + id);

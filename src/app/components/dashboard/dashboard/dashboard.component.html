@@ -10,10 +10,7 @@
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
             class="dropdown-item"
-            (click)="
-              SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson);
-              isValid = !isValid
-            "
+            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
             {{ account.earringsNumber }} - {{ account.relatedPerson }}
@@ -27,8 +24,8 @@
       <tr>
         <th scope="col">Sıra No</th>
         <th scope="col">Küpe No</th>
-        <th scope="col">İlgili Kişi</th>
         <th scope="col">Hisse Adedi</th>
+        <th scope="col">İlgili Kişi</th>
         <th scope="col">Randevu Saati</th>
         <th scope="col">Hesap Alım Saati</th>
         <th scope="col">Kurban Kesim Saati</th>
@@ -43,8 +40,8 @@
         <td>
           {{ account.earringsNumber }}
         </td>
-        <td>{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
+        <td>{{ account.relatedPerson }}</td>
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
@@ -60,8 +57,8 @@
           <td>
             {{ account.earringsNumber }}
           </td>
-          <td>{{ account.relatedPerson }}</td>
           <td>{{ account.numberOfShares }}</td>
+          <td>{{ account.relatedPerson }}</td>
           <td>{{ account.cuttingTime }}</td>
           <td>{{ account.paymentReceived }}</td>
           <td>{{ account.cutReceived }}</td>

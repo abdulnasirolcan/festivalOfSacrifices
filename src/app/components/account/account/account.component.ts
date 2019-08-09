@@ -43,7 +43,8 @@ export class AccountComponent implements OnInit {
   //   );
   // }
 
-  SearchProduct(id: number, rowNumber: number, earringsNumber: number) {
+  SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
+    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
