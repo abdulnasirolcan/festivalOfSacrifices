@@ -31,8 +31,7 @@ export class DashboardComponent implements OnInit {
   totalPaymentId: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
-
-  isValidTable: boolean = false;
+  isValid: boolean = false;
 
   // ChangeSortOrder(newSortOrder: number, rowName: string) {
   //   //this.selectedSortOrder = newSortOrder + ' - ' + rowName;
