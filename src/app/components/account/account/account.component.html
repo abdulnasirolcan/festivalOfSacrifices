@@ -66,7 +66,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="row">
+  <div class="row pt-2 pb-5" *ngIf="isValidForm">
     <div class="col">
       <button
         type="button"
@@ -126,10 +126,10 @@
   </div>
 </ng-template>
 
-<pre>{{ accountRowNumber$ | async | json }}</pre>
+<!-- <pre>{{ accountRowNumber$ | async | json }}</pre>
 <ul *ngFor="let prd of ProductDetails">
   <li>{{ prd.earringsNumber }} - {{ prd.rowNumber }} - {{ prd.paymentReceivedTotal }}</li>
-</ul>
+</ul> -->
 <!-- <div class="container">
   <div>
     Select Product :
@@ -181,7 +181,7 @@
   </div>
 </div> -->
 
-<div>
+<!-- <div>
   <div class="container">
     <div class="row">
       <div class="col">
@@ -199,4 +199,4 @@
   </div>
 </div>
 <hr />
-<pre>Model: {{ model | json }}</pre>
+<pre>Model: {{ model | json }}</pre> -->

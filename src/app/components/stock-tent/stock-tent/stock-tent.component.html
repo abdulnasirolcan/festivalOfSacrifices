@@ -8,7 +8,7 @@
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
             class="dropdown-item"
-            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber)"
+            (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
             {{ account.earringsNumber }} - {{ account.relatedPerson }}
@@ -57,7 +57,7 @@
       </tr>
     </tbody>
   </table>
-  <div class="row pt-2 pb-5">
+  <div class="row pt-2 pb-5" *ngIf="isValidForm">
     <div class="col">
       <button
         type="button"

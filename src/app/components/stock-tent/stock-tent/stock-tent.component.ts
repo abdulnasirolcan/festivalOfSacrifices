@@ -24,6 +24,7 @@ export class StockTentComponent implements OnInit {
   totalPaymentId: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
+  isValidForm: boolean = false;
 
   public trackByFn(index, account) {
     if (!account) {
@@ -47,17 +48,20 @@ export class StockTentComponent implements OnInit {
 
   ngOnInit() {}
 
-  SearchProduct(id: number, rowNumber: number, earringsNumber: number) {
+  SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
+    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
         take(1),
       )
       .subscribe(accounts => {
-        this.ProductDetails = accounts.filter(x => x.rowNumber === rowNumber);
+        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        this.ProductDetails = accountsRowNumber;
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.shareTentEntry !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.shareTentEntryTotal !== null)
           ? true

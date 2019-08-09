@@ -1,9 +1,4 @@
-import {
-  Component,
-  OnInit,
-  ViewEncapsulation,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { LoginState } from 'src/app/core/state';
 import { Observable } from 'rxjs';
@@ -11,13 +6,12 @@ import { User } from 'src/app/core/model/login.model';
 import { Logout } from 'src/app/core/action';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.scss'],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MainLayoutComponent implements OnInit {
   @Select(LoginState.getInitialized)
@@ -25,10 +19,14 @@ export class MainLayoutComponent implements OnInit {
 
   @Select(LoginState.getUser)
   public user$: Observable<User>;
+  navbarOpen = false;
 
   constructor(private store: Store, private spinner: NgxSpinnerService) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  toggleNavbar() {
+    this.navbarOpen = !this.navbarOpen;
   }
 
   logout() {
@@ -37,6 +35,6 @@ export class MainLayoutComponent implements OnInit {
     setTimeout(() => {
       /** spinner ends after 5 seconds */
       this.spinner.hide();
-  }, 5000);
+    }, 3000);
   }
 }

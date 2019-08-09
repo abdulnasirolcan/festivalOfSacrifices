@@ -31,6 +31,7 @@ export class CutterComponent implements OnInit {
   totalPaymentId: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
+  isValidForm: boolean = false;
 
   public trackByFn(index, account) {
     if (!account) {
@@ -66,17 +67,21 @@ export class CutterComponent implements OnInit {
 
   ngOnInit() {}
 
-  SearchProduct(id: number, rowNumber: number, earringsNumber: number) {
+  SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
+    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
         take(1),
       )
       .subscribe(accounts => {
+        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        this.ProductDetails = accountsRowNumber;
         this.ProductDetails = accounts.filter(x => x.rowNumber === rowNumber);
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.cutReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.cutReceivedTotal !== null)
           ? true

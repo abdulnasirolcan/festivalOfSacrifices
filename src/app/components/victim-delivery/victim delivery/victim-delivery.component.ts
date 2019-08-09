@@ -87,10 +87,12 @@ export class VictimDeliveryComponent implements OnInit {
     id: number,
     rowNumber: number,
     earringsNumber: number,
+    relatedPerson: number,
     meat: number,
     bone: number,
     animalWeight: number,
   ) {
+    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),

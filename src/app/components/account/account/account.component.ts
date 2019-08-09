@@ -30,6 +30,7 @@ export class AccountComponent implements OnInit {
   totalPaymentId: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
+  isValidForm: boolean = false;
 
   // ChangeSortOrder(newSortOrder: number, rowName: string) {
   //   //this.selectedSortOrder = newSortOrder + ' - ' + rowName;
@@ -51,10 +52,12 @@ export class AccountComponent implements OnInit {
         take(1),
       )
       .subscribe(accounts => {
-        this.ProductDetails = accounts.filter(x => x.rowNumber === rowNumber);
+        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        this.ProductDetails = accountsRowNumber;
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
           ? true
