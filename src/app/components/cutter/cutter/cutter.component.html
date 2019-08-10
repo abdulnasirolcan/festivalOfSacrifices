@@ -1,9 +1,11 @@
-<div class="container pt-5">
+<div class="container-fluid pt-5">
   <h2 class="text-center">Kesim Sorumlusu<code class="text-success"> tüm </code> listeler</h2>
   <div class="row pt-2 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
+          {{ selectedSortOrder }}
+        </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
@@ -17,7 +19,7 @@
       </div>
     </div>
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
     <thead>
       <tr>
         <th scope="col">Sıra No</th>
@@ -39,7 +41,7 @@
         <td>{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
         <td>{{ account.cuttingTime }}</td>
-        <td>{{ account.paymentReceived }} {{ account.cutReceived }}</td>
+        <td>{{ account.paymentReceived }}</td>
         <td>
           <button
             type="button"

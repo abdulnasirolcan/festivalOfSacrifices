@@ -1,9 +1,11 @@
-<div class="container pt-5">
+<div class="container-fluid pt-5">
   <h2 class="text-center">Hisse Çadırı<code class="text-success"> tüm </code> listeler</h2>
   <div class="row pt-2 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
+          {{ selectedSortOrder }}
+        </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
@@ -17,7 +19,7 @@
       </div>
     </div>
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
     <thead>
       <tr>
         <th scope="col">Sıra No</th>
@@ -42,11 +44,11 @@
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
-        <td>{{ account.containerDelivered }} - {{ account.shareTentEntry }}</td>
+        <td>{{ account.containerDelivered }}</td>
         <td>
           <button
             type="button"
-            class="btn btn-success"
+            class="btn btn-success shadow"
             (click)="openModalTime(content, account.id, account.relatedPerson)"
             [ngClass]="account.shareTentEntry ? 'btn-danger' : 'btn-success'"
             [disabled]="account.shareTentEntry"
@@ -61,7 +63,7 @@
     <div class="col">
       <button
         type="button"
-        class="btn btn-success mr-auto btn-lg btn-block"
+        class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
         [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
         [disabled]="isDisabled || isDisabledTotal"

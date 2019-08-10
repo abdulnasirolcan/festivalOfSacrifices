@@ -113,6 +113,9 @@ export class VictimDeliveryComponent implements OnInit {
           Number(accountsRowNumber.length) * Number(meat) + Number(accountsRowNumber.length) * Number(bone);
         this.animalTotalCount = Math.round((this.animalTotal * 100) / Number(animalWeight));
       });
+    setTimeout(() => {
+      this.cdRef.detectChanges();
+    }, 0);
   }
 
   openModalTime(content?: string, id?: string, relatedPerson?: string) {

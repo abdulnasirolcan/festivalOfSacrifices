@@ -1,9 +1,11 @@
-<div class="container pt-5">
+<div class="container-fluid pt-5">
   <h2 class="text-center">Hisse Çadırı<code class="text-success"> tüm </code> listeler</h2>
   <div class="row pt-4 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
-        <button class="btn btn-outline-success" id="dropdownForm1" ngbDropdownToggle>{{ selectedSortOrder }}</button>
+        <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
+          {{ selectedSortOrder }}
+        </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
             *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
@@ -53,7 +55,7 @@
         </div>
         <button
           type="button"
-          class="btn btn-success mb-2"
+          class="btn btn-success btn-lg mb-2 mr-4 shadow"
           (click)="save(meat.value, bone.value)"
           [ngClass]="!this.form.valid ? 'btn-danger' : 'btn-success'"
           [disabled]="!this.form.valid"
@@ -63,7 +65,7 @@
       </form>
     </div>
   </div>
-  <table class="table table-hover">
+  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
     <thead>
       <tr>
         <th scope="col">Sıra No</th>
@@ -100,7 +102,7 @@
         <td>
           <button
             type="button"
-            class="btn btn-success"
+            class="btn btn-success shadow"
             (click)="openModalTime(content, account.id, account.relatedPerson)"
             [ngClass]="account.victimDelivery ? 'btn-danger' : 'btn-success'"
             [disabled]="account.victimDelivery"
@@ -113,7 +115,7 @@
   </table>
   <div class="row pt-2 pb-3" *ngIf="isValidForm">
     <div class="col">
-      <ol class="breadcrumb">
+      <ol class="breadcrumb shadow-lg p-3 mb-5 rounded">
         <li>Toplam Ağırlık</li>
         <li class="mr-auto mx-auto">{{ animalTotal }}/Kg</li>
         <li class="mr-auto">Toplam Oran</li>
@@ -125,7 +127,7 @@
     <div class="col">
       <button
         type="button"
-        class="btn btn-success mr-auto btn-lg btn-block"
+        class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
         [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
         [disabled]="isDisabled || isDisabledTotal"

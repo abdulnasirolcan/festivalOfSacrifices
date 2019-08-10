@@ -8,29 +8,17 @@
         <form
           [formGroup]="loginForm"
           ngxs="auth.loginForm"
-          (ngSubmit)="
-            onSubmit(
-              loginForm.get('email').value,
-              loginForm.get('password').value
-            )
-          "
+          (ngSubmit)="onSubmit(loginForm.get('email').value, loginForm.get('password').value)"
         >
           <div class="input-group form-group pb-2">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input
-              type="email"
-              class="form-control"
-              formControlName="email"
-              placeholder="Email address"
-              required
-            />
+            <input type="email" class="form-control" formControlName="email" placeholder="Email address" required />
             <div
               *ngIf="
                 loginForm.controls['email'].invalid &&
-                (loginForm.controls['email'].dirty ||
-                  loginForm.controls['email'].touched)
+                (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)
               "
               class="form-text text-danger"
             >
@@ -43,18 +31,11 @@
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input
-              type="password"
-              class="form-control"
-              formControlName="password"
-              placeholder="Password"
-              required
-            />
+            <input type="password" class="form-control" formControlName="password" placeholder="Password" required />
             <div
               *ngIf="
                 loginForm.controls['password'].invalid &&
-                (loginForm.controls['password'].dirty ||
-                  loginForm.controls['password'].touched)
+                (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)
               "
               class="form-text text-danger"
             >
@@ -68,7 +49,7 @@
               type="submit"
               [disabled]="!this.loginForm.valid"
               value="Giriş"
-              class="btn float-right login_btn"
+              class="btn float-right login_btn shadow"
             />
           </div>
         </form>
@@ -77,13 +58,6 @@
   </div>
 </div>
 
-<ngx-spinner
-  bdOpacity="0.9"
-  bdColor="#333"
-  size="large"
-  color="#fff"
-  type="square-loader"
-  [fullScreen]="true"
->
+<ngx-spinner bdOpacity="0.9" bdColor="#333" size="large" color="#fff" type="square-loader" [fullScreen]="true">
   <p style="color: white">Loading...</p>
 </ngx-spinner>
