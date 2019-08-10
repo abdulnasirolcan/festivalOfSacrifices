@@ -64,8 +64,8 @@ export class StockTentComponent implements OnInit {
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.shareTentEntry !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.shareTentEntryTotal !== null)
-          ? true
-          : false;
+          ? false
+          : true;
       });
   }
 

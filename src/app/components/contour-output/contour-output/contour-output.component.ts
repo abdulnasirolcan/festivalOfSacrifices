@@ -66,10 +66,10 @@ export class ContourOutputComponent implements OnInit {
           ? false
           : true;
         this.isDisabledTotal = accounts.filter(
-          x => x.id === this.totalPaymentId[0] && x.containerDeliveredTotal !== null,
+          x => x.id === String(this.totalPaymentId) && x.containerDeliveredTotal !== null,
         )
-          ? true
-          : false;
+          ? false
+          : true;
       });
   }
 

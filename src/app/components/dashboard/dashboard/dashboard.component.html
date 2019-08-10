@@ -60,13 +60,28 @@
           <td>{{ account.numberOfShares }}</td>
           <td>{{ account.relatedPerson }}</td>
           <td>{{ account.cuttingTime }}</td>
-          <td>{{ account.paymentReceived }}</td>
-          <td>{{ account.cutReceived }}</td>
-          <td>{{ account.containerDelivered }}</td>
-          <td>{{ account.shareTentEntry }}</td>
-          <td>{{ account.victimDelivery }}</td>
+          <td [ngClass]="!account.paymentReceived ? 'bg-danger' : 'bg-success'">{{ account.paymentReceived }}</td>
+          <td [ngClass]="!account.cutReceived ? 'bg-danger' : 'bg-success'">{{ account.cutReceived }}</td>
+          <td [ngClass]="!account.containerDelivered ? 'bg-danger' : 'bg-success'">
+            {{ account.containerDelivered }}
+          </td>
+          <td [ngClass]="!account.shareTentEntry ? 'bg-danger' : 'bg-success'">{{ account.shareTentEntry }}</td>
+          <td [ngClass]="!account.victimDelivery ? 'bg-danger' : 'bg-success'">{{ account.victimDelivery }}</td>
         </tr>
       </tbody>
+      <div class="p-2 d-flex justify-content-center">
+        <ngb-pagination
+          *ngIf="accountRowNumber$ | async as account"
+          [collectionSize]="account.length"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          [maxSize]="3"
+          [rotate]="true"
+          [ellipses]="false"
+          [boundaryLinks]="true"
+        >
+        </ngb-pagination>
+      </div>
     </ng-template>
   </table>
 </div>

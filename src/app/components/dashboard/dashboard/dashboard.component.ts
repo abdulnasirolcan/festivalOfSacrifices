@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
 
   @Input() page = 1;
 
-  @Input() pageSize = 6;
+  @Input() pageSize = 10;
 
   currentDate: string;
 
@@ -61,8 +61,8 @@ export class DashboardComponent implements OnInit {
         this.isValid = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
-          ? true
-          : false;
+          ? false
+          : true;
         console.warn(this.totalPaymentId);
       });
   }

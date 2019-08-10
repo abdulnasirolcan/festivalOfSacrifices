@@ -73,8 +73,8 @@
         type="button"
         class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
-        [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
-        [disabled]="isDisabled || isDisabledTotal"
+        [ngClass]="isDisabledTotal ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabledTotal"
       >
         Genel Ödeme Alındı
       </button>

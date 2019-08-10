@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  AfterViewInit,
+} from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
@@ -15,7 +22,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VictimDeliveryComponent implements OnInit {
+export class VictimDeliveryComponent implements OnInit, AfterViewInit {
   @Select(VictimDeliveryState.getVictimDelivery) accounts$: Observable<Account[]>;
   currentDate: string;
   payName: string;
@@ -67,6 +74,7 @@ export class VictimDeliveryComponent implements OnInit {
     });
   };
 
+  ngAfterViewInit(): void {}
   save = (meat, bone) => {
     if (this.form.valid) {
       this.store.dispatch(
@@ -91,6 +99,7 @@ export class VictimDeliveryComponent implements OnInit {
     meat: number,
     bone: number,
     animalWeight: number,
+    victimDeliveryTotal: string,
   ) {
     this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
     this.accounts$
@@ -106,16 +115,19 @@ export class VictimDeliveryComponent implements OnInit {
           .map(y => y.id);
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.victimDelivery !== null) ? false : true;
-        this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.victimDeliveryTotal !== null)
-          ? true
-          : false;
+        this.isDisabledTotal = accounts.filter(
+          x => x.id === String(this.totalPaymentId) && x.victimDeliveryTotal !== null,
+        )
+          ? false
+          : true;
         this.animalTotal =
           Number(accountsRowNumber.length) * Number(meat) + Number(accountsRowNumber.length) * Number(bone);
         this.animalTotalCount = Math.round((this.animalTotal * 100) / Number(animalWeight));
       });
-    setTimeout(() => {
-      this.cdRef.detectChanges();
-    }, 0);
+    // this.cdRef.detach();
+    // setInterval(() => {
+    //   this.cdRef.detectChanges();
+    // }, 1000);
   }
 
   openModalTime(content?: string, id?: string, relatedPerson?: string) {

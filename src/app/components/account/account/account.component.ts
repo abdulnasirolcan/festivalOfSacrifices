@@ -59,9 +59,11 @@ export class AccountComponent implements OnInit {
           .map(y => y.id);
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
-        this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
-          ? true
-          : false;
+        this.isDisabledTotal = accounts.filter(
+          x => x.id === String(this.totalPaymentId) && x.paymentReceivedTotal !== null,
+        )
+          ? false
+          : true;
         console.warn(this.totalPaymentId);
       });
   }

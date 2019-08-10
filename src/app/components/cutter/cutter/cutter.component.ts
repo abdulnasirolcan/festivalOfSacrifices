@@ -84,8 +84,8 @@ export class CutterComponent implements OnInit {
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.cutReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.cutReceivedTotal !== null)
-          ? true
-          : false;
+          ? false
+          : true;
       });
   }
 
