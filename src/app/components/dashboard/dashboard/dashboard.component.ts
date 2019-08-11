@@ -1,7 +1,15 @@
-import { Component, OnInit, ViewEncapsulation, ChangeDetectionStrategy, Input, ChangeDetectorRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewEncapsulation,
+  ChangeDetectionStrategy,
+  Input,
+  ChangeDetectorRef,
+  ViewChildren,
+} from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { Observable, OperatorFunction } from 'rxjs';
-import { map, filter, take, retry } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, filter, take } from 'rxjs/operators';
 import { AccountState } from '../../../core/state';
 import { Account } from '../../../core/model';
 import { CreateAccount, CreateAccountTotal } from 'src/app/core/action';
@@ -16,7 +24,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class DashboardComponent implements OnInit {
   @Select(AccountState.getAccount) accounts$: Observable<Account[]>;
-
   @Input() page = 1;
 
   @Input() pageSize = 10;
@@ -33,6 +40,9 @@ export class DashboardComponent implements OnInit {
   isDisabledTotal: boolean;
   isValid: boolean = false;
 
+  animalTotal: number = 0;
+  animalTotalCount: number = 0;
+
   // ChangeSortOrder(newSortOrder: number, rowName: string) {
   //   //this.selectedSortOrder = newSortOrder + ' - ' + rowName;
   //   return this.accounts$.pipe(
@@ -46,7 +56,7 @@ export class DashboardComponent implements OnInit {
   // }
 
   SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
-    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
+    this.selectedSortOrder = 'Sıra No: ' + rowNumber + ' Küpe No: ' + earringsNumber + ' İlgili Kişi: ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
@@ -63,7 +73,6 @@ export class DashboardComponent implements OnInit {
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
           ? false
           : true;
-        console.warn(this.totalPaymentId);
       });
   }
   public trackByFn(index, account) {
@@ -88,13 +97,22 @@ export class DashboardComponent implements OnInit {
     return this.accounts$.pipe(
       filter(account => !!account.length),
       take(1),
-      map(accounts =>
-        accounts
-          .filter(account => account.earringsNumber !== null)
-          .map((account, i) => ({ id: i + 1, ...account }))
-          .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize),
+      map(
+        accounts =>
+          accounts
+            .filter(account => account.earringsNumber !== null && account.rowNumber)
+            .map((account, i) => ({ id: i + 1, ...account })),
+        // .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize),
       ),
     );
+  }
+
+  accountAnimalWeightAndCount(numberOfShares: number, meat: number, bone: number): number {
+    return Math.round((Number(numberOfShares) * Number(meat) + Number(numberOfShares) * Number(bone)) * 100) / 100;
+  }
+
+  accountAnimalWeight(animalWeight: number, numberOfShares: number, meat: number, bone: number) {
+    return Math.round((this.accountAnimalWeightAndCount(numberOfShares, meat, bone) * 100) / Number(animalWeight));
   }
 
   constructor(private store: Store, private modalService: NgbModal, private cdRef: ChangeDetectorRef) {}

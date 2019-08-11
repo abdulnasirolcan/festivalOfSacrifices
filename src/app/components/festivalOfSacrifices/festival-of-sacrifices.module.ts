@@ -8,12 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [FestivalOfSacrificesComponent],
-  imports: [
-    CommonModule,
-    FestivalOfSacrificesRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgbModule.forRoot()  
-  ]
+  imports: [CommonModule, FestivalOfSacrificesRoutingModule, FormsModule, ReactiveFormsModule, NgbModule],
 })
-export class FestivalOfSacrificesModule { }
+export class FestivalOfSacrificesModule {}

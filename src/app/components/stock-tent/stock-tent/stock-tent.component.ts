@@ -22,6 +22,7 @@ export class StockTentComponent implements OnInit {
   selectedSortOrder: string = 'Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
+  totalPaymentIdTotal: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
   isValidForm: boolean = false;
@@ -49,7 +50,7 @@ export class StockTentComponent implements OnInit {
   ngOnInit() {}
 
   SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
-    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
+    this.selectedSortOrder = 'Sıra No: ' + rowNumber + ' Küpe No: ' + earringsNumber + ' İlgili Kişi: ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
@@ -61,6 +62,7 @@ export class StockTentComponent implements OnInit {
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.totalPaymentIdTotal = accounts.filter(x => x.rowNumber === rowNumber).map(y => y.id);
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.shareTentEntry !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.shareTentEntryTotal !== null)
@@ -97,6 +99,7 @@ export class StockTentComponent implements OnInit {
         shareTentEntryTotal: currentTimeTotal,
       }),
     );
+    this.totalPaymentIdTotal.map((account, i) => this.currentTime(currentTimeTotal, account));
     setTimeout(() => {
       this.cdRef.detectChanges();
     }, 1000);

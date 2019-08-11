@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import(`./components/login/login.module`).then(m => m.LoginModule),
+    loadChildren: './components/login/login.module#LoginModule',
   },
   {
     path: '',
@@ -29,39 +29,39 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import(`./components/dashboard/dashboard.module`).then(m => m.DashboardModule),
+        loadChildren: './components/dashboard/dashboard.module#DashboardModule',
         resolve: { DashboardResolve },
       },
       {
         path: 'account',
         canActivate: [AuthGuard],
-        loadChildren: () => import(`./components/account/account.module`).then(m => m.AccountModule),
+        loadChildren: './components/account/account.module#AccountModule',
+
         resolve: { AccountResolve },
       },
       {
         path: 'cutter',
         canActivate: [AuthGuard],
-        loadChildren: () => import(`./components/cutter/cutter.module`).then(m => m.CutterModule),
+        loadChildren: './components/cutter/cutter.module#CutterModule',
+
         resolve: { CutterResolve },
       },
       {
         path: 'contour-output',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import(`./components/contour-output/contour-output.module`).then(m => m.ContourOutputModule),
+        loadChildren: './components/contour-output/contour-output.module#ContourOutputModule',
         resolve: { ContourOutputResolve },
       },
       {
         path: 'stock-tent',
         canActivate: [AuthGuard],
-        loadChildren: () => import(`./components/stock-tent/stock-tent.module`).then(m => m.StockTentModule),
+        loadChildren: './components/stock-tent/stock-tent.module#StockTentModule',
         resolve: { StockTentResolve },
       },
       {
         path: 'victim-delivery',
         canActivate: [AuthGuard],
-        loadChildren: () =>
-          import(`./components/victim-delivery/victim-delivery.module`).then(m => m.VictimDeliveryModule),
+        loadChildren: './components/victim-delivery/victim-delivery.module#VictimDeliveryModule',
         resolve: { VictimDeliveryResolve },
       },
       {

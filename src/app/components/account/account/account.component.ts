@@ -12,6 +12,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './account.component.html',
   styleUrls: ['./account.component.scss'],
   encapsulation: ViewEncapsulation.None,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AccountComponent implements OnInit {
   @Select(AccountState.getAccount) accounts$: Observable<Account[]>;
@@ -28,6 +29,7 @@ export class AccountComponent implements OnInit {
   selectedSortOrder: string = 'Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
+  totalPaymentIdTotal: string[];
   isDisabled: boolean;
   isDisabledTotal: boolean;
   isValidForm: boolean = false;
@@ -45,7 +47,7 @@ export class AccountComponent implements OnInit {
   // }
 
   SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
-    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
+    this.selectedSortOrder = 'Sıra No: ' + rowNumber + ' Küpe No: ' + earringsNumber + ' İlgili Kişi: ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
@@ -57,6 +59,7 @@ export class AccountComponent implements OnInit {
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.totalPaymentIdTotal = accounts.filter(x => x.rowNumber === rowNumber).map(y => y.id);
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(
@@ -128,6 +131,7 @@ export class AccountComponent implements OnInit {
         paymentReceivedTotal: currentTimeTotal,
       }),
     );
+    this.totalPaymentIdTotal.map((account, i) => this.currentTime(currentTimeTotal, account));
     setTimeout(() => {
       this.cdRef.detectChanges();
     }, 1000);

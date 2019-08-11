@@ -8,7 +8,11 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
-            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            *ngFor="
+              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
+              let i = index;
+              trackBy: trackElement
+            "
             class="dropdown-item"
             (click)="
               SearchProduct(
@@ -24,7 +28,8 @@
             "
             ngbDropdownItem
           >
-            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
+            {{ account.relatedPerson }}
           </button>
         </div>
       </div>
@@ -91,7 +96,7 @@
           {{ account.earringsNumber }}
         </td>
         <td>{{ account.numberOfShares }}</td>
-        <td>{{ account.relatedPerson }}</td>
+        <td [ngClass]="account.earringsNumber ? 'bg-success' : ''">{{ account.relatedPerson }}</td>
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
@@ -102,6 +107,7 @@
         <td>{{ account.bone }}</td>
         <td>
           <button
+            *ngIf="account.shareTentEntry"
             type="button"
             class="btn btn-success shadow"
             (click)="openModalTime(content, account.id, account.relatedPerson)"
@@ -117,10 +123,10 @@
   <div class="row pt-2 pb-3" *ngIf="isValidForm">
     <div class="col">
       <ol class="breadcrumb shadow-lg p-3 mb-5 rounded">
-        <li>Toplam Ağırlık</li>
-        <li class="mr-auto mx-auto">{{ animalTotal }}/Kg</li>
-        <li class="mr-auto">Toplam Oran</li>
-        <li class="mr-auto">{{ animalTotalCount }}%</li>
+        <li *ngIf="animalTotal">Toplam Ağırlık</li>
+        <li class="mr-auto mx-auto" *ngIf="animalTotal">{{ animalTotal }}/Kg</li>
+        <li class="mr-auto" *ngIf="animalTotalCount">Toplam Oran</li>
+        <li class="mr-auto" *ngIf="animalTotalCount">{{ animalTotalCount }}%</li>
       </ol>
     </div>
   </div>
@@ -130,8 +136,8 @@
         type="button"
         class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
-        [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
-        [disabled]="isDisabled || isDisabledTotal"
+        [ngClass]="isDisabled ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabled"
       >
         Genel Kurban Teslimi Edildi
       </button>

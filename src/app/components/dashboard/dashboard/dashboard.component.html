@@ -8,12 +8,17 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
-            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            *ngFor="
+              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
+              let i = index;
+              trackBy: trackElement
+            "
             class="dropdown-item"
             (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
-            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
+            {{ account.relatedPerson }}
           </button>
         </div>
       </div>
@@ -32,6 +37,9 @@
         <th scope="col">Kurban Konteynır Çıkışı Saati</th>
         <th scope="col">Hisse Çadırı Giriş Saati</th>
         <th scope="col">Hisse Çıkış Saati</th>
+        <th scope="col">Canlı Ağırlık</th>
+        <th scope="col">Toplam Ağırlık</th>
+        <th scope="col">Toplam Oran</th>
       </tr>
     </thead>
     <tbody *ngIf="isValid; else other_content">
@@ -41,18 +49,24 @@
           {{ account.earringsNumber }}
         </td>
         <td>{{ account.numberOfShares }}</td>
-        <td>{{ account.relatedPerson }}</td>
+        <td [ngClass]="account.earringsNumber ? 'bg-success' : ''">
+          {{ account.relatedPerson }}
+        </td>
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
         <td>{{ account.containerDelivered }}</td>
         <td>{{ account.shareTentEntry }}</td>
         <td>{{ account.victimDelivery }}</td>
+        <td>{{ account.animalWeight }}/Kg</td>
       </tr>
     </tbody>
     <ng-template #other_content>
       <tbody>
-        <tr *ngFor="let account of account$ | async; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+        <tr
+          *ngFor="let account of account$ | async | orderBy: ['+rowNumber']; let i = index; trackBy: trackByFn"
+          [attr.data-index]="i"
+        >
           <th scope="row">{{ account.rowNumber }}</th>
           <td>
             {{ account.earringsNumber }}
@@ -67,6 +81,13 @@
           </td>
           <td [ngClass]="!account.shareTentEntry ? 'bg-danger' : 'bg-success'">{{ account.shareTentEntry }}</td>
           <td [ngClass]="!account.victimDelivery ? 'bg-danger' : 'bg-success'">{{ account.victimDelivery }}</td>
+          <td>{{ account.animalWeight }}/Kg</td>
+          <td *ngIf="account.meat && account.bone">
+            {{ accountAnimalWeightAndCount(account.numberOfShares, account.meat, account.bone) }}/Kg
+          </td>
+          <td *ngIf="account.animalWeight && account.meat && account.bone">
+            {{ accountAnimalWeight(account.animalWeight, account.numberOfShares, account.meat, account.bone) }}%
+          </td>
         </tr>
       </tbody>
       <div class="p-2 d-flex justify-content-center">

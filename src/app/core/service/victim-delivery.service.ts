@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VictimDeliveryService {
-  private dbPath = 'demo/';
+  private dbPath = 'festivalOfSacrifices/';
   victimDeliveryList: AngularFireList<Account[]>;
 
   constructor(private firebase: AngularFireDatabase, private af: AngularFirestore) {
@@ -23,7 +23,7 @@ export class VictimDeliveryService {
 
   getAddedVictimDelivery(): Observable<Account[]> {
     return this.af
-      .collection<Account>('demo')
+      .collection<Account>('festivalOfSacrifices')
       .stateChanges(['added'])
       .pipe(
         map(actions =>

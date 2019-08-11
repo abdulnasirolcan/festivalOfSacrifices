@@ -11,8 +11,8 @@ export class CutterStateModel {
 @State<CutterStateModel>({
   name: 'cutter',
   defaults: {
-    cutter: []
-  }
+    cutter: [],
+  },
 })
 export class CutterState {
   constructor(private cutterService: CutterService) {}
@@ -30,10 +30,7 @@ export class CutterState {
   }
 
   @Action(CreateCutter)
-  add(
-    { getState, patchState }: StateContext<CutterStateModel>,
-    { payload }: CreateCutter
-  ) {
+  add({ getState, patchState }: StateContext<CutterStateModel>, { payload }: CreateCutter) {
     return this.cutterService.addCutter(payload.id, payload.cutReceived).then(
       cutter => {
         patchState({
@@ -47,7 +44,7 @@ export class CutterState {
       },
       err => {
         throw new Error(err);
-      }
+      },
     );
   }
   @Action(CreateCutterTotal)

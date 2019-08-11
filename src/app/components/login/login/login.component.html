@@ -5,11 +5,7 @@
         <h3 class="mt-5 text-center">Kurban Takip Sistemi</h3>
       </div>
       <div class="card-body">
-        <form
-          [formGroup]="loginForm"
-          ngxs="auth.loginForm"
-          (ngSubmit)="onSubmit(loginForm.get('email').value, loginForm.get('password').value)"
-        >
+        <form [formGroup]="loginForm" ngxs="auth.loginForm" (ngSubmit)="onSubmit()">
           <div class="input-group form-group pb-2">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-user"></i></span>

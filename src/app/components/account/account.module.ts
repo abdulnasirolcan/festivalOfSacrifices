@@ -5,10 +5,9 @@ import { AccountRoutingModule } from './account-routing.module';
 import { AccountComponent } from './account/account.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ReversePipe } from '../../ui/pipe';
-
+import { PipeModule } from '../../ui/pipe/pipe.module';
 @NgModule({
-  declarations: [AccountComponent, ReversePipe],
-  imports: [CommonModule, AccountRoutingModule, FormsModule, ReactiveFormsModule, NgbModule.forRoot()],
+  declarations: [AccountComponent],
+  imports: [CommonModule, AccountRoutingModule, FormsModule, ReactiveFormsModule, NgbModule, PipeModule],
 })
 export class AccountModule {}

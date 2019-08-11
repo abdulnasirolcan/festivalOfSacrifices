@@ -8,12 +8,17 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
           <button
-            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            *ngFor="
+              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
+              let i = index;
+              trackBy: trackElement
+            "
             class="dropdown-item"
             (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
-            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
+            {{ account.relatedPerson }}
           </button>
         </div>
       </div>
@@ -38,13 +43,14 @@
         <td>
           {{ account.earringsNumber }}
         </td>
-        <td>{{ account.relatedPerson }}</td>
+        <td [ngClass]="account.earringsNumber ? 'bg-success' : ''">{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
         <td>{{ account.cuttingTime }}</td>
         <td>{{ account.paymentReceived }}</td>
         <td>{{ account.cutReceived }}</td>
         <td>
           <button
+            *ngIf="account.cutReceived"
             type="button"
             class="btn btn-success shadow"
             (click)="openModalTime(content, account.id, account.relatedPerson)"
@@ -63,8 +69,8 @@
         type="button"
         class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
-        [ngClass]="isDisabled || isDisabledTotal ? 'btn-danger' : 'btn-success'"
-        [disabled]="isDisabled || isDisabledTotal"
+        [ngClass]="isDisabled ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabled"
       >
         Genel Konteynır Çıkışı Yapıldı
       </button>

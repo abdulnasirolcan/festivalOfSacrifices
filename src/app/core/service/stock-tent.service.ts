@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class StockTentService {
-  private dbPath = 'demo/';
+  private dbPath = 'festivalOfSacrifices/';
   stockTentList: AngularFireList<Account[]>;
 
   constructor(private firebase: AngularFireDatabase, private af: AngularFirestore) {
@@ -23,7 +23,7 @@ export class StockTentService {
 
   getAddedStockTent(): Observable<Account[]> {
     return this.af
-      .collection<Account>('demo')
+      .collection<Account>('festivalOfSacrifices')
       .stateChanges(['added'])
       .pipe(
         map(actions =>

@@ -30,8 +30,9 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
   selectedSortOrder: string = 'Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
-  animalTotal: number;
-  animalTotalCount: number;
+  totalPaymentIdTotal: string[];
+  animalTotal: number = 0;
+  animalTotalCount: number = 0;
   isDisabled: boolean;
   isDisabledTotal: boolean;
   form: FormGroup;
@@ -101,7 +102,7 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
     animalWeight: number,
     victimDeliveryTotal: string,
   ) {
-    this.selectedSortOrder = earringsNumber + ' - ' + relatedPerson;
+    this.selectedSortOrder = 'Sıra No: ' + rowNumber + ' Küpe No: ' + earringsNumber + ' İlgili Kişi: ' + relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
@@ -113,6 +114,7 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
         this.totalPaymentId = accounts
           .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
           .map(y => y.id);
+        this.totalPaymentIdTotal = accounts.filter(x => x.rowNumber === rowNumber).map(y => y.id);
         this.isValidForm = !!accountsRowNumber;
         this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.victimDelivery !== null) ? false : true;
         this.isDisabledTotal = accounts.filter(
@@ -121,7 +123,11 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
           ? false
           : true;
         this.animalTotal =
-          Number(accountsRowNumber.length) * Number(meat) + Number(accountsRowNumber.length) * Number(bone);
+          Math.round(
+            (Number(accountsRowNumber.length - 1) * Number(meat) +
+              Number(accountsRowNumber.length - 1) * Number(bone)) *
+              100,
+          ) / 100;
         this.animalTotalCount = Math.round((this.animalTotal * 100) / Number(animalWeight));
       });
     // this.cdRef.detach();
@@ -158,6 +164,7 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
         victimDeliveryTotal: currentTimeTotal,
       }),
     );
+    this.totalPaymentIdTotal.map((account, i) => this.currentTime(currentTimeTotal, account));
     setTimeout(() => {
       this.cdRef.detectChanges();
     }, 1000);

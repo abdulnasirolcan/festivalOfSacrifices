@@ -7,26 +7,18 @@
           {{ selectedSortOrder }}
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownForm1">
-          <!-- <form class="px-3 py-2">
-            <div class="form-group">
-              <input
-                *ngIf="accountRowNumber$ as account"
-                type="text"
-                class="form-control"
-                id="exampleDropdownFormPassword1"
-                [(ngModel)]="account.earringsNumber"
-                placeholder="Arama yap"
-              />
-            </div>
-          </form>
-          <div class="dropdown-divider"></div> -->
           <button
-            *ngFor="let account of accountRowNumber$ | async; let i = index; trackBy: trackElement"
+            *ngFor="
+              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
+              let i = index;
+              trackBy: trackElement
+            "
             class="dropdown-item"
             (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
-            {{ account.earringsNumber }} - {{ account.relatedPerson }}
+            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
+            {{ account.relatedPerson }}
           </button>
         </div>
       </div>
@@ -44,13 +36,21 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
-        <!-- <th scope="row">{{ i + 1 }}</th> -->
+      <tr
+        *ngFor="
+          let account of ProductDetails
+            | orderBy: ['rowNumber', '+earringsNumber', 'relatedPerson', 'numberOfShares', 'cuttingTime'];
+          let i = index;
+          trackBy: trackByFn
+        "
+        [attr.data-index]="i"
+      >
+        <!-- <th scope="row">{{ i + account.rowNumber }}</th> -->
         <th scope="row">{{ account.rowNumber }}</th>
         <td>
           {{ account.earringsNumber }}
         </td>
-        <td>{{ account.relatedPerson }}</td>
+        <td [ngClass]="account.earringsNumber ? 'bg-success' : ''">{{ account.relatedPerson }}</td>
         <td>{{ account.numberOfShares }}</td>
         <td>{{ account.cuttingTime }}</td>
         <td>
@@ -73,8 +73,8 @@
         type="button"
         class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
         (click)="openModalTime(contentTotal, totalPaymentId)"
-        [ngClass]="isDisabledTotal ? 'btn-danger' : 'btn-success'"
-        [disabled]="isDisabledTotal"
+        [ngClass]="isDisabled ? 'btn-danger' : 'btn-success'"
+        [disabled]="isDisabled"
       >
         Genel Ödeme Alındı
       </button>
