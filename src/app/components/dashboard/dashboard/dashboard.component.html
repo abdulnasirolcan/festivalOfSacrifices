@@ -38,6 +38,8 @@
         <th scope="col">Hisse Çadırı Giriş Saati</th>
         <th scope="col">Hisse Çıkış Saati</th>
         <th scope="col">Canlı Ağırlık</th>
+        <th scope="col">Et</th>
+        <th scope="col">Kemik</th>
         <th scope="col">Toplam Ağırlık</th>
         <th scope="col">Toplam Oran</th>
       </tr>
@@ -59,6 +61,14 @@
         <td>{{ account.shareTentEntry }}</td>
         <td>{{ account.victimDelivery }}</td>
         <td>{{ account.animalWeight }}/Kg</td>
+        <td *ngIf="account.meat">{{ account.meat }}/Kg</td>
+        <td *ngIf="account.bone">{{ account.bone }}/Kg</td>
+        <td *ngIf="account.meat && account.bone">
+          {{ accountAnimalWeightAndCount(account.numberOfShares, account.meat, account.bone) }}/Kg
+        </td>
+        <td *ngIf="account.animalWeight && account.meat && account.bone">
+          {{ accountAnimalWeight(account.animalWeight, account.numberOfShares, account.meat, account.bone) }}%
+        </td>
       </tr>
     </tbody>
     <ng-template #other_content>
@@ -82,6 +92,8 @@
           <td [ngClass]="!account.shareTentEntry ? 'bg-danger' : 'bg-success'">{{ account.shareTentEntry }}</td>
           <td [ngClass]="!account.victimDelivery ? 'bg-danger' : 'bg-success'">{{ account.victimDelivery }}</td>
           <td>{{ account.animalWeight }}/Kg</td>
+          <td *ngIf="account.meat">{{ account.meat }}/Kg</td>
+          <td *ngIf="account.bone">{{ account.bone }}/Kg</td>
           <td *ngIf="account.meat && account.bone">
             {{ accountAnimalWeightAndCount(account.numberOfShares, account.meat, account.bone) }}/Kg
           </td>

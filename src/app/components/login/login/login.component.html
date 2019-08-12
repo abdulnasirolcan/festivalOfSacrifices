@@ -6,11 +6,17 @@
       </div>
       <div class="card-body">
         <form [formGroup]="loginForm" ngxs="auth.loginForm" (ngSubmit)="onSubmit()">
-          <div class="input-group form-group pb-2">
+          <div class="input-group form-group pb-3">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-user"></i></span>
             </div>
-            <input type="email" class="form-control" formControlName="email" placeholder="Email address" required />
+            <input
+              type="email"
+              class="form-control"
+              formControlName="email"
+              placeholder="Email adresinizi giriniz"
+              required
+            />
             <div
               *ngIf="
                 loginForm.controls['email'].invalid &&
@@ -19,15 +25,21 @@
               class="form-text text-danger"
             >
               <div *ngIf="loginForm.controls['email'].errors.required">
-                Lütfen Email adresini giriniz*
+                Lütfen Email adresinizi giriniz*
               </div>
             </div>
           </div>
-          <div class="input-group form-group pb-2">
+          <div class="input-group form-group pb-3">
             <div class="input-group-prepend">
               <span class="input-group-text"><i class="fas fa-key"></i></span>
             </div>
-            <input type="password" class="form-control" formControlName="password" placeholder="Password" required />
+            <input
+              type="password"
+              class="form-control"
+              formControlName="password"
+              placeholder="Parolanızı giriniz"
+              required
+            />
             <div
               *ngIf="
                 loginForm.controls['password'].invalid &&
