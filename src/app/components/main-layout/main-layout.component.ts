@@ -21,6 +21,33 @@ export class MainLayoutComponent implements OnInit {
   public user$: Observable<User>;
   navbarOpen = false;
 
+  navigations = [
+    {
+      name: 'Anasayfa',
+      link: '/dashboard',
+    },
+    {
+      name: 'Muhasebe',
+      link: '/account',
+    },
+    {
+      name: 'Kesimin Sorumlusu',
+      link: '/cutter',
+    },
+    {
+      name: 'Kontenyır Çıkışı',
+      link: '/contour-output',
+    },
+    {
+      name: 'Kurban Teslimi',
+      link: '/stock-tent',
+    },
+  ];
+
+  public trackByFunction(index: number, navigations: any) {
+    return navigations ? !!navigations : null;
+  }
+
   constructor(private store: Store, private spinner: NgxSpinnerService) {}
 
   ngOnInit() {}

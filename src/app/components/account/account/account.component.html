@@ -37,12 +37,7 @@
     </thead>
     <tbody>
       <tr
-        *ngFor="
-          let account of ProductDetails
-            | orderBy: ['rowNumber', '+earringsNumber', 'relatedPerson', 'numberOfShares', 'cuttingTime'];
-          let i = index;
-          trackBy: trackByFn
-        "
+        *ngFor="let account of ProductDetails | orderBy: ['-id', 'i']; let i = index; trackBy: trackByFn"
         [attr.data-index]="i"
       >
         <!-- <th scope="row">{{ i + account.rowNumber }}</th> -->

@@ -15,25 +15,8 @@
 
   <div class="collapse navbar-collapse" id="navbarColor02" [ngClass]="{ show: navbarOpen }">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/dashboard']"
-          >Anasayfa <span class="sr-only">(current)</span></a
-        >
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/account']">Muhasebe</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/cutter']">Kesimin Sorumlusu</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/contour-output']">Kontenyır Çıkışı</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/stock-tent']">Hisse Çadırı Giriş</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="['/victim-delivery']">Kurban Teslimi</a>
+      <li class="nav-item" *ngFor="let navigation of navigations; trackBy: trackByFunction">
+        <a class="nav-link" routerLinkActive="active" [routerLink]="navigation.link">{{ navigation.name }}</a>
       </li>
     </ul>
     <div class="my-2 my-lg-0" *ngIf="user$ | async; let user">
