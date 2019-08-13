@@ -5,22 +5,23 @@ import {
   ChangeDetectionStrategy,
   Input,
   ChangeDetectorRef,
-  ViewChildren,
-} from '@angular/core';
-import { Store, Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { map, filter, take } from 'rxjs/operators';
-import { AccountState } from '../../../core/state';
-import { Account } from '../../../core/model';
-import { CreateAccount, CreateAccountTotal } from 'src/app/core/action';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+  ViewChildren
+} from "@angular/core";
+import { Store, Select } from "@ngxs/store";
+import { Observable } from "rxjs";
+import { map, filter, take } from "rxjs/operators";
+import { AccountState } from "../../../core/state";
+import { Account } from "../../../core/model";
+import { CreateAccount, CreateAccountTotal } from "src/app/core/action";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { FormBuilder, FormGroup } from "@angular/forms";
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: "app-dashboard",
+  templateUrl: "./dashboard.component.html",
+  styleUrls: ["./dashboard.component.scss"],
   encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent implements OnInit {
   @Select(AccountState.getAccount) accounts$: Observable<Account[]>;
@@ -33,7 +34,7 @@ export class DashboardComponent implements OnInit {
   payName: string;
 
   idName: string;
-  selectedSortOrder: string = 'Lütfen Küpe No Seçiniz';
+  selectedSortOrder: string = "Lütfen Küpe No Seçiniz";
   ProductDetails: object = [];
   totalPaymentId: string[];
   isDisabled: boolean;
@@ -54,23 +55,49 @@ export class DashboardComponent implements OnInit {
   //     }),
   //   );
   // }
+  stateForm: FormGroup;
+  stateFormDropDown: FormGroup;
+  showDropDown = false;
 
-  SearchProduct(id: number, rowNumber: number, earringsNumber: number, relatedPerson: number) {
-    this.selectedSortOrder = 'Sıra No: ' + rowNumber + ' Küpe No: ' + earringsNumber + ' İlgili Kişi: ' + relatedPerson;
+  SearchProduct(
+    id: number,
+    rowNumber: number,
+    earringsNumber: number,
+    relatedPerson: number
+  ) {
+    this.selectedSortOrder =
+      "Sıra No: " +
+      rowNumber +
+      " Küpe No: " +
+      earringsNumber +
+      " İlgili Kişi: " +
+      relatedPerson;
     this.accounts$
       .pipe(
         filter(account => !!account.length),
-        take(1),
+        take(1)
       )
       .subscribe(accounts => {
-        const accountsRowNumber = accounts.filter(x => x.rowNumber === rowNumber);
+        const accountsRowNumber = accounts.filter(
+          x => x.rowNumber === rowNumber
+        );
         this.ProductDetails = accountsRowNumber;
         this.totalPaymentId = accounts
-          .filter(x => x.rowNumber === rowNumber && x.earringsNumber === earringsNumber)
+          .filter(
+            x =>
+              x.rowNumber === rowNumber && x.earringsNumber === earringsNumber
+          )
           .map(y => y.id);
         this.isValid = !!accountsRowNumber;
-        this.isDisabled = accounts.filter(x => x.rowNumber === rowNumber && x.paymentReceived !== null) ? false : true;
-        this.isDisabledTotal = accounts.filter(x => x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null)
+        this.isDisabled = accounts.filter(
+          x => x.rowNumber === rowNumber && x.paymentReceived !== null
+        )
+          ? false
+          : true;
+        this.isDisabledTotal = accounts.filter(
+          x =>
+            x.id === this.totalPaymentId[0] && x.paymentReceivedTotal !== null
+        )
           ? false
           : true;
       });
@@ -89,7 +116,7 @@ export class DashboardComponent implements OnInit {
   get accountRowNumber$(): Observable<any> {
     return this.accounts$.pipe(
       take(1),
-      map(accounts => accounts.filter(x => x.earringsNumber !== null)),
+      map(accounts => accounts.filter(x => x.earringsNumber !== null))
     );
   }
 
@@ -100,24 +127,76 @@ export class DashboardComponent implements OnInit {
       map(
         accounts =>
           accounts
-            .filter(account => account.earringsNumber !== null && account.rowNumber)
-            .map((account, i) => ({ id: i + 1, ...account })),
+            .filter(
+              account => account.earringsNumber !== null && account.rowNumber
+            )
+            .map((account, i) => ({ id: i + 1, ...account }))
         // .slice((this.page - 1) * this.pageSize, (this.page - 1) * this.pageSize + this.pageSize),
-      ),
+      )
     );
   }
 
-  accountAnimalWeightAndCount(numberOfShares: number, meat: number, bone: number): number {
-    return Math.round((Number(numberOfShares) * Number(meat) + Number(numberOfShares) * Number(bone)) * 100) / 100;
+  accountAnimalWeightAndCount(
+    numberOfShares: number,
+    meat: number,
+    bone: number
+  ): number {
+    return (
+      Math.round(
+        (Number(numberOfShares) * Number(meat) +
+          Number(numberOfShares) * Number(bone)) *
+          100
+      ) / 100
+    );
   }
 
-  accountAnimalWeight(animalWeight: number, numberOfShares: number, meat: number, bone: number) {
-    return Math.round((this.accountAnimalWeightAndCount(numberOfShares, meat, bone) * 100) / Number(animalWeight));
+  accountAnimalWeight(
+    animalWeight: number,
+    numberOfShares: number,
+    meat: number,
+    bone: number
+  ) {
+    return Math.round(
+      (this.accountAnimalWeightAndCount(numberOfShares, meat, bone) * 100) /
+        Number(animalWeight)
+    );
   }
 
-  constructor(private store: Store, private modalService: NgbModal, private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private store: Store,
+    private modalService: NgbModal,
+    private cdRef: ChangeDetectorRef,
+    private fb: FormBuilder
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.initForm();
+    this.initFormDropDown();
+  }
+
+  initForm(): FormGroup {
+    return (this.stateForm = this.fb.group({
+      search: [null]
+    }));
+  }
+
+  initFormDropDown(): FormGroup {
+    return (this.stateFormDropDown = this.fb.group({
+      search: [null]
+    }));
+  }
+
+  openDropDown() {
+    this.showDropDown = false;
+  }
+
+  getSearchValue() {
+    return this.stateForm.value.search;
+  }
+
+  getSearchValueDropDown() {
+    return this.stateFormDropDown.value.search;
+  }
 
   openModalTime(content?: string, id?: string, relatedPerson?: string) {
     const timeAll = new Date().toTimeString().substring(0, 5);
@@ -132,8 +211,8 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(
       new CreateAccount({
         id: idTime,
-        paymentReceived: currentTime,
-      }),
+        paymentReceived: currentTime
+      })
     );
     setTimeout(() => {
       this.cdRef.detectChanges();
@@ -144,8 +223,8 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch(
       new CreateAccountTotal({
         id: idTime,
-        paymentReceivedTotal: currentTimeTotal,
-      }),
+        paymentReceivedTotal: currentTimeTotal
+      })
     );
     setTimeout(() => {
       this.cdRef.detectChanges();

@@ -2,16 +2,22 @@
   <h2 class="text-center">
     <i class="fas fa-clipboard-list"></i> Genel <code class="text-success">Tüm </code> Listeler
   </h2>
-  <div class="row pt-2 pb-4">
+  <div class="row pt-4 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
           <i class="fas fa-sort-numeric-down"></i> {{ selectedSortOrder }}
         </button>
+        
         <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="scrollable-menu">
+              <div class="col pb-2">
+        <form [formGroup]='stateFormDropDown'>
+            <input id='search' placeholder="Arama yapabilirsiniz" class="form-control border border-success border-radius-20 shadow" formControlName='search' (click)='openDropDown()' type='text' autocomplete="off">
+    </form>
+    </div>
           <button
             *ngFor="
-              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
+              let account of accountRowNumber$ | async | orderBy: ['+rowNumber'] | searchFilter: getSearchValueDropDown();
               let i = index;
               trackBy: trackElement
             "
@@ -27,6 +33,11 @@
           </button>
         </div>
       </div>
+    </div>
+    <div class="col">
+        <form [formGroup]='stateForm'>
+            <input id='search' placeholder="Arama yapabilirsiniz" class="form-control border border-success border-radius-20 shadow" formControlName='search' (click)='openDropDown()' type='text' autocomplete="off">
+    </form>
     </div>
   </div>
   <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
@@ -50,7 +61,7 @@
       </tr>
     </thead>
     <tbody *ngIf="isValid; else other_content">
-      <tr *ngFor="let account of ProductDetails; let i = index; trackBy: trackByFn" [attr.data-index]="i">
+      <tr *ngFor="let account of ProductDetails | searchFilter: getSearchValue(); let i = index; trackBy: trackByFn" [attr.data-index]="i">
         <th scope="row">{{ account.rowNumber }}</th>
         <td>
           {{ account.earringsNumber }}
@@ -79,7 +90,7 @@
     <ng-template #other_content>
       <tbody>
         <tr
-          *ngFor="let account of account$ | async | orderBy: ['+rowNumber']; let i = index; trackBy: trackByFn"
+          *ngFor="let account of account$ | async | orderBy: ['+rowNumber'] | searchFilter: getSearchValue(); let i = index; trackBy: trackByFn"
           [attr.data-index]="i"
         >
           <th scope="row">{{ account.rowNumber }}</th>
@@ -123,3 +134,11 @@
     </ng-template>
   </table>
 </div>
+
+            <!-- <div clickOutside (clickOutside)="closeDropDown()">
+                <div *ngIf='showDropDown' class='search-drop-down'>
+                    <div (click)='selectValue(account.relatedPerson)' class='search-results ' *ngFor="let account of account$ | async | searchFilter: getSearchValue()">
+                        <a [innerHTML]="account.relatedPerson | letterBold: getSearchValue()"></a>
+                    </div>
+                </div>
+            </div> -->
