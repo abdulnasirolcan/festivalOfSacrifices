@@ -1,5 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" routerLinkActive="active" [routerLink]="['/dashboard']">Kurban Takip Sistemi</a>
+  <a class="navbar-brand" routerLinkActive="active" [routerLink]="['/dashboard']"
+    ><img src="../../../assets/images/cow-icon.png" width="64" height="64" /> Kurban Takip Sistemi</a
+  >
   <button
     class="navbar-toggler collapsed"
     type="button"
@@ -16,7 +18,9 @@
   <div class="collapse navbar-collapse" id="navbarColor02" [ngClass]="{ show: navbarOpen }">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" *ngFor="let navigation of navigations; trackBy: trackByFunction">
-        <a class="nav-link" routerLinkActive="active" [routerLink]="navigation.link">{{ navigation.name }}</a>
+        <a class="nav-link" routerLinkActive="active" [routerLink]="navigation.link"
+          ><i class="{{ navigation.icon }}"></i> {{ navigation.name }}</a
+        >
       </li>
     </ul>
     <div class="my-2 my-lg-0" *ngIf="user$ | async; let user">

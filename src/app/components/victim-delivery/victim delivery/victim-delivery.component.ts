@@ -27,7 +27,7 @@ export class VictimDeliveryComponent implements OnInit, AfterViewInit {
   currentDate: string;
   payName: string;
   idName: string;
-  selectedSortOrder: string = 'Küpe No Seçiniz';
+  selectedSortOrder: string = 'Lütfen Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
   totalPaymentIdTotal: string[];

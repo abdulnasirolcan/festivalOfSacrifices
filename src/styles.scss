@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+.scrollable-menu {
+  height: auto;
+  max-height: 200px;
+  overflow-x: hidden;
+}
+
+.th-indent {
+  text-indent: -10px;
+}

@@ -19,7 +19,7 @@ export class ContourOutputComponent implements OnInit {
   currentDate: string;
   payName: string;
   idName: string;
-  selectedSortOrder: string = 'Küpe No Seçiniz';
+  selectedSortOrder: string = 'Lütfen Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
   totalPaymentIdTotal: string[];

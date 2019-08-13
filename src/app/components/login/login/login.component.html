@@ -2,7 +2,9 @@
   <div class="d-flex justify-content-center h-100">
     <div class="card">
       <div class="card-header">
-        <h3 class="mt-5 text-center">Kurban Takip Sistemi</h3>
+        <h3 class="mt-5 text-center th-indent-20">
+          <img src="../../../assets/images/cow-icon.png" width="64" height="64" /> Kurban Takip Sistemi
+        </h3>
       </div>
       <div class="card-body">
         <form [formGroup]="loginForm" ngxs="auth.loginForm" (ngSubmit)="onSubmit()">
@@ -22,7 +24,7 @@
                 loginForm.controls['email'].invalid &&
                 (loginForm.controls['email'].dirty || loginForm.controls['email'].touched)
               "
-              class="form-text text-danger"
+              class="form-text text-warning pt-2"
             >
               <div *ngIf="loginForm.controls['email'].errors.required">
                 Lütfen Email adresinizi giriniz*
@@ -45,7 +47,7 @@
                 loginForm.controls['password'].invalid &&
                 (loginForm.controls['password'].dirty || loginForm.controls['password'].touched)
               "
-              class="form-text text-danger"
+              class="form-text text-warning pt-2"
             >
               <div *ngIf="loginForm.controls['password'].errors.required">
                 Lütfen parola giriniz*

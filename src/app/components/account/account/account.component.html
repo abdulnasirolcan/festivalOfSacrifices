@@ -1,12 +1,14 @@
 <div class="container-fluid pt-5">
-  <h2 class="text-center">Muhasebe <code class="text-success">tüm </code> listeler</h2>
+  <h2 class="text-center">
+    <i class="fas fa-calculator"></i> Muhasebe <code class="text-success">tüm </code> listeler
+  </h2>
   <div class="row pt-2 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
-          {{ selectedSortOrder }}
+          <i class="fas fa-sort-numeric-down"></i> {{ selectedSortOrder }}
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="scrollable-menu">
           <button
             *ngFor="
               let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
@@ -17,27 +19,34 @@
             (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
-            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
-            {{ account.relatedPerson }}
+            <p>
+              <i class="fas fa-sort-amount-down"></i> Sıra No: {{ account.rowNumber
+              }}<code class="text-success"> Küpe No: {{ account.earringsNumber }} </code> İlgili Kişi:
+              {{ account.relatedPerson }}
+            </p>
           </button>
         </div>
       </div>
     </div>
   </div>
-  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
+  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded" *ngIf="totalPaymentIdTotal">
     <thead>
       <tr>
-        <th scope="col">Sıra No</th>
-        <th scope="col">Küpe No</th>
-        <th scope="col">İlgili Kişi</th>
-        <th scope="col">Hisse Adedi</th>
-        <th scope="col">Randevu Saati</th>
-        <th scope="col">Ödeme Alanı</th>
+        <th scope="col"><i class="fas fa-sort-amount-down"></i> Sıra No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Küpe No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Hisse Adedi</th>
+        <th scope="col"><i class="fas fa-sort-alpha-down"></i> İlgili Kişi</th>
+        <th scope="col"><i class="fas fa-clock"></i> Randevu Saati</th>
+        <th scope="col"><i class="fas fa-handshake"></i> Ödeme Alanı</th>
       </tr>
     </thead>
     <tbody>
       <tr
-        *ngFor="let account of ProductDetails | orderBy: ['-id', 'i']; let i = index; trackBy: trackByFn"
+        *ngFor="
+          let account of ProductDetails | orderBy: ['-id', 'i + account.rowNumber'];
+          let i = index;
+          trackBy: trackByFn
+        "
         [attr.data-index]="i"
       >
         <!-- <th scope="row">{{ i + account.rowNumber }}</th> -->
@@ -56,7 +65,7 @@
             [ngClass]="account.paymentReceived ? 'btn-danger' : 'btn-success'"
             [disabled]="account.paymentReceived"
           >
-            Ödeme Alındı
+            Ödeme Alındı <i class="fas fa-thumbs-up"></i>
           </button>
         </td>
       </tr>
@@ -66,12 +75,12 @@
     <div class="col">
       <button
         type="button"
-        class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
+        class="btn btn-success mr-auto btn-lg btn-lg btn-block shadow-lg p-2"
         (click)="openModalTime(contentTotal, totalPaymentId)"
         [ngClass]="isDisabled ? 'btn-danger' : 'btn-success'"
         [disabled]="isDisabled"
       >
-        Genel Ödeme Alındı
+        <i class="fas fa-paper-plane"></i> Genel Ödeme Alındı
       </button>
     </div>
   </div>
@@ -101,7 +110,8 @@
   </div>
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
-    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et <i class="fas fa-thumbs-up"></i>
+</button>
   </div>
 </ng-template>
 
@@ -117,7 +127,7 @@
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
     <button type="button" class="btn btn-success" (click)="c(currentTimeTotal(currentDate, idName))">
-      Kabul Et
+      Kabul Et <i class="fas fa-thumbs-up"></i>
     </button>
   </div>
 </ng-template>

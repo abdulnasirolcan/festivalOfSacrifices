@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
   payName: string;
 
   idName: string;
-  selectedSortOrder: string = 'Küpe No Seçiniz';
+  selectedSortOrder: string = 'Lütfen Küpe No Seçiniz';
   ProductDetails: object = [];
   totalPaymentId: string[];
   isDisabled: boolean;

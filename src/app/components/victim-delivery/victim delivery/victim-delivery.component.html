@@ -1,12 +1,14 @@
 <div class="container-fluid pt-5">
-  <h2 class="text-center">Kurban teslimi<code class="text-success"> tüm </code> listeler</h2>
+  <h2 class="text-center">
+    <i class="fas fa-user-clock"></i> Kurban teslimi<code class="text-success"> Tüm </code> Listeler
+  </h2>
   <div class="row pt-4 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
-          {{ selectedSortOrder }}
+          <i class="fas fa-sort-numeric-down"></i> {{ selectedSortOrder }}
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="scrollable-menu">
           <button
             *ngFor="
               let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
@@ -28,8 +30,11 @@
             "
             ngbDropdownItem
           >
-            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
-            {{ account.relatedPerson }}
+            <p>
+              <i class="fas fa-sort-amount-down"></i> Sıra No: {{ account.rowNumber
+              }}<code class="text-success"> Küpe No: {{ account.earringsNumber }} </code> İlgili Kişi:
+              {{ account.relatedPerson }}
+            </p>
           </button>
         </div>
       </div>
@@ -71,22 +76,22 @@
       </form>
     </div>
   </div>
-  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
+  <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded" *ngIf="totalPaymentIdTotal">
     <thead>
       <tr>
-        <th scope="col">Sıra No</th>
-        <th scope="col">Küpe No</th>
-        <th scope="col">Hisse Adedi</th>
-        <th scope="col">İlgili Kişi</th>
-        <th scope="col">Randevu Saati</th>
-        <th scope="col">Ödeme Alındı</th>
-        <th scope="col">Kesim Yapıldı</th>
-        <th scope="col">Kontenyır Çıkışı Yapıldı</th>
-        <th scope="col">Hisse Çadırı Yapıldı</th>
-        <th scope="col">Canlı Ağırlık</th>
-        <th scope="col">Et</th>
-        <th scope="col">Kemik</th>
-        <th scope="col">Kurban Teslim Edildi</th>
+        <th scope="col"><i class="fas fa-sort-amount-down"></i> Sıra No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Küpe No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Hisse Adedi</th>
+        <th scope="col"><i class="fas fa-sort-alpha-down"></i> İlgili Kişi</th>
+        <th scope="col"><i class="fas fa-clock"></i> Randevu Saati</th>
+        <th scope="col"><i class="fas fa-handshake"></i> Ödeme Alanı</th>
+        <th scope="col"><i class="fas fa-hourglass-half"></i> Kesim Yapıldı</th>
+        <th scope="col"><i class="fas fa-stopwatch"></i> Kontenyır Çıkışı Yapıldı</th>
+        <th scope="col"><i class="fas fa-history"></i> Hisse Çadırı Yapıldı</th>
+        <th scope="col"><i class="fas fa-balance-scale"></i> Canlı Ağırlık</th>
+        <th scope="col"><i class="fas fa-drumstick-bite"></i> Et</th>
+        <th scope="col" class="th-indent"><i class="fas fa-drumstick-bite"></i> Kemik</th>
+        <th scope="col"><i class="fas fa-handshake"></i> Kurban Teslim Edildi</th>
       </tr>
     </thead>
     <tbody>
@@ -114,7 +119,7 @@
             [ngClass]="account.victimDelivery ? 'btn-danger' : 'btn-success'"
             [disabled]="account.victimDelivery"
           >
-            Kurban Teslim Edildi
+            Kurban Teslim Edildi <i class="fas fa-thumbs-up"></i>
           </button>
         </td>
       </tr>
@@ -134,12 +139,12 @@
     <div class="col">
       <button
         type="button"
-        class="btn btn-success mr-auto btn-lg btn-block shadow-lg"
+        class="btn btn-success mr-auto btn-lg btn-block shadow-lg p-2"
         (click)="openModalTime(contentTotal, totalPaymentId)"
         [ngClass]="isDisabled ? 'btn-danger' : 'btn-success'"
         [disabled]="isDisabled"
       >
-        Genel Kurban Teslimi Edildi
+        <i class="fas fa-paper-plane"></i> Genel Kurban Teslimi Edildi
       </button>
     </div>
   </div>
@@ -157,7 +162,8 @@
   </div>
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
-    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et</button>
+    <button type="button" class="btn btn-success" (click)="c(currentTime(currentDate, idName))">Kabul Et <i class="fas fa-thumbs-up"></i>
+</button>
   </div>
 </ng-template>
 
@@ -173,7 +179,7 @@
   <div class="modal-footer">
     <button type="button" ngbAutofocus class="btn btn-danger" (click)="c('Ok click')">İptal Et</button>
     <button type="button" class="btn btn-success" (click)="c(currentTimeTotal(currentDate, idName))">
-      Kabul Et
+      Kabul Et <i class="fas fa-thumbs-up"></i>
     </button>
   </div>
 </ng-template>

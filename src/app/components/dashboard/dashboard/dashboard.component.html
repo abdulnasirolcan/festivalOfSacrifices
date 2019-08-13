@@ -1,12 +1,14 @@
 <div class="container-fluid pt-5">
-  <h2 class="text-center">Genel <code class="text-success">tüm </code> listeler</h2>
+  <h2 class="text-center">
+    <i class="fas fa-clipboard-list"></i> Genel <code class="text-success">Tüm </code> Listeler
+  </h2>
   <div class="row pt-2 pb-4">
     <div class="col">
       <div ngbDropdown class="d-inline-block">
         <button class="btn btn-outline-success shadow" id="dropdownForm1" ngbDropdownToggle>
-          {{ selectedSortOrder }}
+          <i class="fas fa-sort-numeric-down"></i> {{ selectedSortOrder }}
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+        <div ngbDropdownMenu aria-labelledby="dropdownForm1" class="scrollable-menu">
           <button
             *ngFor="
               let account of accountRowNumber$ | async | orderBy: ['+rowNumber'];
@@ -17,8 +19,11 @@
             (click)="SearchProduct(account.id, account.rowNumber, account.earringsNumber, account.relatedPerson)"
             ngbDropdownItem
           >
-            Sıra No: {{ account.rowNumber }} Küpe No: {{ account.earringsNumber }} İlgili Kişi:
-            {{ account.relatedPerson }}
+            <p>
+              <i class="fas fa-sort-amount-down"></i> Sıra No: {{ account.rowNumber
+              }}<code class="text-success"> Küpe No: {{ account.earringsNumber }} </code> İlgili Kişi:
+              {{ account.relatedPerson }}
+            </p>
           </button>
         </div>
       </div>
@@ -27,21 +32,21 @@
   <table class="table table-hover bg-light text-dark shadow-lg p-3 mb-5 rounded">
     <thead>
       <tr>
-        <th scope="col">Sıra No</th>
-        <th scope="col">Küpe No</th>
-        <th scope="col">Hisse Adedi</th>
-        <th scope="col">İlgili Kişi</th>
-        <th scope="col">Randevu Saati</th>
-        <th scope="col">Hesap Alım Saati</th>
-        <th scope="col">Kurban Kesim Saati</th>
-        <th scope="col">Kurban Konteynır Çıkışı Saati</th>
-        <th scope="col">Hisse Çadırı Giriş Saati</th>
-        <th scope="col">Hisse Çıkış Saati</th>
-        <th scope="col">Canlı Ağırlık</th>
-        <th scope="col">Et</th>
-        <th scope="col">Kemik</th>
-        <th scope="col">Toplam Ağırlık</th>
-        <th scope="col">Toplam Oran</th>
+        <th scope="col"><i class="fas fa-sort-amount-down"></i> Sıra No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Küpe No</th>
+        <th scope="col"><i class="fas fa-sort-numeric-down"></i> Hisse Adedi</th>
+        <th scope="col"><i class="fas fa-sort-alpha-down"></i> İlgili Kişi</th>
+        <th scope="col"><i class="fas fa-clock"></i> Randevu Saati</th>
+        <th scope="col"><i class="fas fa-funnel-dollar"></i> Hesap Alım Saati</th>
+        <th scope="col"><i class="fas fa-hourglass-half"></i> Kurban Kesim Saati</th>
+        <th scope="col"><i class="fas fa-stopwatch"></i> Kurban Konteynır Çıkışı Saati</th>
+        <th scope="col"><i class="fas fa-history"></i> Hisse Çadırı Giriş Saati</th>
+        <th scope="col"><i class="fas fa-hourglass"></i> Hisse Çıkış Saati</th>
+        <th scope="col"><i class="fas fa-balance-scale"></i> Canlı Ağırlık</th>
+        <th scope="col"><i class="fas fa-drumstick-bite"></i> Et</th>
+        <th scope="col" class="th-indent"><i class="fas fa-drumstick-bite"></i> Kemik</th>
+        <th scope="col"><i class="fas fa-balance-scale"></i> Toplam Ağırlık</th>
+        <th scope="col"><i class="fas fa-percentage"></i> Toplam Oran</th>
       </tr>
     </thead>
     <tbody *ngIf="isValid; else other_content">

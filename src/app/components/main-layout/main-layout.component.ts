@@ -25,22 +25,27 @@ export class MainLayoutComponent implements OnInit {
     {
       name: 'Anasayfa',
       link: '/dashboard',
+      icon: 'fas fa-house-damage',
     },
     {
       name: 'Muhasebe',
       link: '/account',
+      icon: 'fas fa-calculator',
     },
     {
       name: 'Kesimin Sorumlusu',
       link: '/cutter',
+      icon: 'fas fa-portrait',
     },
     {
       name: 'Kontenyır Çıkışı',
       link: '/contour-output',
+      icon: 'fas fa-user-clock',
     },
     {
       name: 'Kurban Teslimi',
       link: '/stock-tent',
+      icon: 'fas fa-truck',
     },
   ];
 

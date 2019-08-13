@@ -1,6 +1,6 @@
 html,
 body {
-  background-image: url('https://s1.1zoom.me/b5349/766/Cow_Grass_548931_1920x1080.jpg');
+  background-image: url('../../../../assets/images/cow-background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   height: 100%;
@@ -86,4 +86,7 @@ input:focus {
 .form-text {
   position: fixed;
   margin-top: 2.25rem !important;
+}
+.th-indent-20 {
+  text-indent: -20px;
 }
