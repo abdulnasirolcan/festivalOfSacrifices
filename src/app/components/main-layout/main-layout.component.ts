@@ -43,8 +43,13 @@ export class MainLayoutComponent implements OnInit {
       icon: 'fas fa-user-clock',
     },
     {
-      name: 'Kurban Teslimi',
+      name: 'Hisse Çadırı Giriş',
       link: '/stock-tent',
+      icon: 'fas fa-history',
+    },
+    {
+      name: 'Kurban Teslimi',
+      link: '/victim-delivery',
       icon: 'fas fa-truck',
     },
   ];
