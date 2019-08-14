@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
+import { IgxExcelExporterService } from 'igniteui-angular';
 // Form
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -81,7 +82,7 @@ import { ContourOutputState } from './core/state/contour-output.state';
       disabled: environment.production,
     }),
   ],
-  providers: [AuthGuard, AngularFireDatabase, AngularFirestore],
+  providers: [AuthGuard, AngularFireDatabase, AngularFirestore, IgxExcelExporterService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
